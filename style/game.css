@@ -31,7 +31,7 @@ div {
 	height:490px;
 	overflow:hidden;
 	display:none;
-	background:url(../image/bg_game2.gif) no-repeat left top;
+	background:url(../image/game_info.png) no-repeat left top;
 	z-index:2;
 }
 #info {
