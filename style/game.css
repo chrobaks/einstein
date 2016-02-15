@@ -132,21 +132,50 @@ div.boxFlag td{
 	overflow:hidden;
 	z-index:2;
 }
-#btnGameStatus {
+#wrapperGameHelper {
 	position:absolute;
-	top:91px;
+	top:141px;
 	left:7px;
 	width:214px;
-	height:96px;
-	text-align:center;
+	height:50px;
 	overflow:hidden;
-	cursor:pointer;
-	background:url(../image/bg_button.gif) no-repeat left top;
+	display:none;
+	z-index:3;
+}
+#gameHelperText {
+	width:150px;
+	height:50px;
+	background-color:#669999;
+	border-radius: 15px 0 0 15px;
+	border: 1px solid #669999;
+}
+#gameHelperText div {
+	color:#fff;
+	padding-top:15px;
+	text-align: center;
+}
+#btnGameStatus {
+	position:absolute;
+	top:83px;
+	left:7px;
 	z-index:1;
 }
 #btnGameStatus div {
-	padding-top:40px;
-	font-size:16px;
+	padding-top:15px;
+	font-size:14px;
+	font-weight:bold;
+	color:#f6f6f6;
+}
+#btnGameHelper {
+	position:absolute;
+	top:141px;
+	left:7px;
+	display:block;
+	z-index:2;
+}
+#btnGameHelper div {
+	padding-top:15px;
+	font-size:14px;
 	font-weight:bold;
 	color:#f6f6f6;
 }
@@ -158,7 +187,7 @@ div.boxFlag td{
 	height:16px;
 	text-align:center;
 	overflow:hidden;
-	z-index:2;
+	z-index:4;
 }
 #infoCatProp {
 	position:absolute;
@@ -168,7 +197,7 @@ div.boxFlag td{
 	height:16px;
 	overflow:hidden;
 	text-align:center;
-	z-index:3;
+	z-index:5;
 }
 #infoCat div,#infoCatProp div {
 	padding-top:3px;
@@ -237,6 +266,46 @@ input.bt {
 	color:#ffffff;
 }
 /* ---------- format class default ---------------*/
+div.floatL {
+	float:left;
+}
+div.floatR {
+	float:right;
+}
+div.clearL {
+	clear:left;
+}
+div.clearR {
+	clear:right;
+}
 div.clearB {
 	clear:both;
+}
+/* ---------- sub class ---------------*/
+.btn {
+	cursor:pointer;
+	background-color:#FD4703;
+	border-radius: 15px;
+	border: 1px solid #f5f5f5;
+}
+.btnRr {
+	cursor:pointer;
+	background-color:#FD4703;
+	border-radius: 0 15px 15px 0;
+}
+.btn-game {
+	width:214px;
+	height:50px;
+	text-align:center;
+	overflow:hidden;
+}
+.btn-helper-close {
+	width:60px;
+	height:50px;
+	text-align:center;
+	overflow:hidden;
+}
+.btn-helper-close div {
+	color:#fff !important;
+	padding-top:8px !important;
 }

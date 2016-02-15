@@ -10,12 +10,19 @@ function GameController (Events, EventListener, gameResource) {
 
 	this.gameResource = gameResource;
 	this.gameStart = null;
+	this.gameClientNeedHelp = false;
 
 	this.gameInfoFields = {
-
+		btnGameStatus : null,
 		gameDescription : null,
 		infoCat : null,
 		infoCatProp : null
+	};
+
+	this.gameHelperFields = {
+		btnGameHelper : null,
+		wrapperGameHelper : null,
+		gameHelperText : null
 	};
 
 	this.icons = [];
@@ -66,6 +73,7 @@ function GameController (Events, EventListener, gameResource) {
 	this.houses = [];
 	this.houseIds = ['house1','house2','house3','house4','house5'];
 	this.configHouse = {
+		houseCache : null,
 		idPrefix : 'house',
 		colorFilter : {
 			'default' : {
@@ -102,6 +110,7 @@ GameController.prototype.init = function () {
 	this.initHouses();
 	this.initIcons();
 	this.initGameInfoFields();
+	this.initGameHelperFields();
 	this.initEvents();
 
 	this.View = new GameView(this.gameInfoFields);
@@ -110,14 +119,22 @@ GameController.prototype.init = function () {
 
 };
 
+
+GameController.prototype.initGameHelperFields = function () {
+
+		this.gameHelperFields.btnGameHelper = new GameModel('btnGameHelper', {'display':'display'} );
+		this.gameHelperFields.wrapperGameHelper = new GameModel('wrapperGameHelper', {'display':'display'} );
+		this.gameHelperFields.gameHelperText = new GameModel('gameHelperText', {} );
+
+};
+
 GameController.prototype.initGameInfoFields = function () {
 
-	this.gameInfoFields = {
-		btnGameStatus : new GameModel('btnGameStatus', {} ),
-		gameDescription : new GameModel('gameDescription', {} ),
-		infoCat : new GameModel('infoCat', {} ),
-		infoCatProp : new GameModel('infoCatProp', {} )
-	};
+	this.gameInfoFields.btnGameStatus = new GameModel('btnGameStatus', {} );
+	this.gameInfoFields.gameDescription = new GameModel('gameDescription', {} );
+	this.gameInfoFields.infoCat = new GameModel('infoCat', {} );
+	this.gameInfoFields.infoCatProp = new GameModel('infoCatProp', {} );
+
 };
 
 GameController.prototype.initEvents = function () {
@@ -128,23 +145,11 @@ GameController.prototype.initEvents = function () {
 	this.EventListener.callback('icon_mouse_down', namespace, 'dragIcon');
 	this.EventListener.callback('icon_mouse_up', namespace, 'dropIcon');
 	this.EventListener.callback('game_status', namespace, 'setGameStatus');
+	this.EventListener.callback('show_help', namespace, 'showGameHelper');
 
 	this.Events.onClick('btnGameStatus', 'game_status');
-
-};
-
-GameController.prototype.setGameStatus = function () {
-
-	if ( this.gameStart === true) {
-
-		this.resetGame();
-
-	}
-
-	this.gameStart = (this.gameStart === false);
-
-	this.View.renderGameDescription(this.gameStart, this.gameResource);
-	this.View.renderGameBtnGameStatus(this.gameStart);
+	this.Events.onClick('btnGameHelper', 'show_help');
+	this.Events.onClick('btnGameHelperClose', 'show_help');
 
 };
 
@@ -155,6 +160,8 @@ GameController.prototype.resetGame = function () {
 		this.resetIconPosition(iconId);
 
 	}
+
+	this.setGameHelperStatus();
 
 };
 
@@ -302,6 +309,8 @@ GameController.prototype.dropIcon = function (obj) {
 
 	}
 
+	this.setGameHelperStatus();
+
 	this.View.renderIconInfo();
 
 };
@@ -350,6 +359,30 @@ GameController.prototype.checkIconPosition = function () {
 	}
 
 	return res;
+
+};
+
+GameController.prototype.checkGameHelper = function () {
+
+	var errorCounter = 0;
+
+	for( var houseId in this.houses){
+
+		var props = this.houses[houseId].model.property('colorName,animalName,sportName,flagName,drinkName');
+
+		for(var needle in props){
+
+			if (props[needle] !== null &&  props[needle] !== 'default') {
+
+				if ( ! this.filterGameResult(houseId, props[needle])) {
+
+					errorCounter++;
+				}
+			}
+		}
+	}
+
+	return errorCounter;
 
 };
 
@@ -490,6 +523,59 @@ GameController.prototype.resetIconPosition = function (id) {
 		this.setHouseProperty(props.houseId, null, props.itemCat);
 
 	}
+};
+
+GameController.prototype.showGameHelper = function () {
+
+
+
+	this.gameClientNeedHelp = (this.gameClientNeedHelp === false);
+
+	var showBtn = ( ! this.gameClientNeedHelp) ? 'block' : 'none';
+	var showWrapper = (showBtn === 'none') ? 'block' : 'none';
+
+	this.gameHelperFields.btnGameHelper.property('display',showBtn);
+	this.gameHelperFields.wrapperGameHelper.property('display',showWrapper);
+
+
+	if (this.gameClientNeedHelp) {
+
+		this.setGameHelperStatus();
+
+	}
+
+};
+
+GameController.prototype.setGameStatus = function () {
+
+	if ( this.gameStart === true) {
+
+		this.resetGame();
+
+	}
+
+	this.gameStart = (this.gameStart === false);
+
+	this.View.renderGameDescription(this.gameStart, this.gameResource);
+	this.View.renderGameBtnGameStatus(this.gameStart);
+
+};
+
+GameController.prototype.setGameHelperStatus = function () {
+
+	if (this.gameClientNeedHelp) {
+
+		var errorStatus = this.checkGameHelper();
+		var statusText = 'Keine Fehler!';
+
+		if (errorStatus) {
+			statusText = 'Anzahl der Fehler : ' + errorStatus;
+		}
+
+		this.gameHelperFields.gameHelperText.addInnerHTML('<div>' + statusText + '</div>');
+
+	}
+
 };
 
 GameController.prototype.setHouseProperty = function (houseId, iconId, cat) {

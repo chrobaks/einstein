@@ -19,7 +19,13 @@
 <body onload="init()">
     <div id="mainbox" >
         <div id="control">
-            <div id="btnGameStatus" onclick="ctrlButton()"><div>&gt;&gt; START</div></div>
+            <div id="btnGameStatus" class="btn btn-game"><div>&gt;&gt; START</div></div>
+            <div id="btnGameHelper" class="btn btn-game"><div>Play with Help</div></div>
+            <div id="wrapperGameHelper">
+                <div id="gameHelperText" class="floatL"><div>Play with Help</div></div>
+                <div id="btnGameHelperClose" class="btnRr btn-helper-close floatL"><div>close<br>Helper</div></div>
+                <div class="clearL"></div>
+            </div>
             <div id="infoCat"></div>
             <div id="infoCatProp"></div>
         </div>
