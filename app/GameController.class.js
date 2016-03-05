@@ -303,6 +303,12 @@ GameController.prototype.dropIcon = function (obj) {
 
 		this.setIconHousePosition();
 
+		if (this.checkGameStatus()) {
+
+			this.setGameStatus();
+
+		}
+
 	} else{
 
 		this.resetIconPosition(this.iconConfig.actualId);
@@ -649,11 +655,6 @@ GameController.prototype.setIconHousePosition  = function () {
 	// set icon new house property
 	icon.property(iconNewProp);
 
-	if (this.checkGameStatus()) {
-
-		this.setGameStatus();
-
-	}
 
 };
 

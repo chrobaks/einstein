@@ -4,23 +4,29 @@
 
 function EventListener () {
 
-	var events = new Array();
+	var events = [];
+
+
+
+	function runCallbacks (watcherid, args) {
+
+		var callbacks = events[watcherid].callbacks;
+
+		for ( var i = 0; i < callbacks.length;i++) {
+
+			var namespace = callbacks[i].namespace;
+			var callback = callbacks[i].callback;
+
+			namespace[callback](args);
+
+		}
+	}
 
 	this.notification = function (watcherid, args) {
 
-		if ( events.hasOwnProperty(watcherid)) {
+		if (events[watcherid].callbacks !== null && events[watcherid].callbacks.length ) {
 
-			events[watcherid].args = args;
-
-		} else {
-
-			events[watcherid] = {namespace:null, callback:null, args:args};
-
-		}
-
-		if (events[watcherid].namespace !== null && events[watcherid].callback !== null) {
-
-			events[watcherid].namespace[events[watcherid].callback](args);
+			runCallbacks (watcherid, args);
 
 		}
 	};
@@ -29,12 +35,23 @@ function EventListener () {
 
 		if ( events.hasOwnProperty(watcherid)) {
 
-			events[watcherid].namespace = namespace;
-			events[watcherid].callback = callback;
+			events[watcherid].callbacks.push({
+				namespace:namespace,
+				callback:callback
+			});
+
 
 		} else {
 
-			events[watcherid] = {namespace:namespace, callback:callback, args:null};
+			events[watcherid] = {
+				callbacks:[
+					{
+						namespace:namespace,
+						callback:callback
+					}
+				],
+				args:null
+			};
 
 		}
 	};
