@@ -25,7 +25,7 @@ see how easy it is to implement a little Quizgame  with Javascript.
 
 You can find a Demo here :
 
-http://www.netcoapp.de/einstein/
+https://www.netcodev.de/einstein/
 
 
 
