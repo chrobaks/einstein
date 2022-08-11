@@ -91,12 +91,7 @@ class GameUi
         for(let i = 1; i < keyArgs.length; i++) { key += keyArgs[i].charAt(0).toUpperCase() + keyArgs[i].slice(1)}
 
         if (obj.dataset.hasOwnProperty(key)) {
-
-            result = true;
-
-            if (value && this.dataSetValue(obj, key) !== value) {
-                result = false;
-            }
+            result = !(value && this.dataSetValue(obj, key) !== value);
         }
 
         return result;
@@ -129,12 +124,6 @@ class GameUi
         return (obj.dataset?.[key]) ? obj.dataset[key] : '';
     }
 
-    static isDefaultIcon (img)
-    {
-        const pattern = new RegExp(this.config.defaultIcon + "$","i");
-        return pattern.test(img.src);
-    }
-
     static ucFirst(string) {
         return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
@@ -153,10 +142,21 @@ class GameUi
     static formPostData (arrArgs)
     {
         const formData = this.formData(arrArgs);
-        const result = Array
+        return Array
             .from(formData.entries())
-            .reduce((m, [ key, value ]) => Object.assign(m, { [key]: value }), {});
+            .reduce((m, [key, value]) => Object.assign(m, {[key]: value}), {});
+    }
 
-        return result;
+    static preLoadImg (path, index, imgList)
+    {
+        const img = new Image();
+
+        img.addEventListener('load', () => {
+            if (index + 1 < imgList.length) {
+                index += 1;
+                this.preLoadImg(path, index, imgList);
+            }
+        });
+        img.src = path + "/" + imgList[index];
     }
 }
