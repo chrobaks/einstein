@@ -1,173 +1,151 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-	<meta charset="UTF-8">
-	<title>www.netcoapp.de / Einstein</title>
-	<style type="text/css">
-		body {
-			margin:0;
-			padding:0;
-			font-family:Verdana, sans-serif;
-			font-size:12px;
-			color:#333333;
-			background:url(image/background.png) repeat;
-		}
-		a {color:#00CC00;}
-		ul {list-style: none;margin:0;padding:20px 120px 10px 30px;}
-		li {line-height: 1.9em;}
-
-		#wrapper{
-			position:absolute;
-			top:50%;
-			left:50%;
-			width:790px;
-			height:490px;
-			overflow:hidden;
-			padding:0;
-			margin: -245px 0 0 -395px;
-		}
-		#intro {
-			position:relative;
-			margin:0;
-			border:0;
-			width:790px;
-			height:490px;
-			background: #fff url(image/intro_bg.png) no-repeat;
-			display : block;
-		}
-		#introContent {
-			position:absolute;
-			top:30px;
-			left:35px;
-			margin:0;
-			border:0;
-			width:722px;
-			height:400px;
-			background: transparent;
-			display : block;
-			overflow:auto;
-		}
-		#introContent p {padding:5px 120px 10px 30px;}
-		#introContent h2, #introContent h3  {padding:20px 120px 0 30px;color:#00CC00;}
-		#introContent p {line-height: 1.5em}
-		#introCtrl { position:absolute; top:442px; left:328px; width:224px; height:26px; }
-		#introCtrl input[type=button] { background-color:#FD4703; color:#fff; font-weight:bold; padding: 2px 30px; }
-		iframe { margin:0; border:0; width:790px; height:490px; background-color:transparent !important; display : none; }
-		iframe:focus {outline: none;}
-		.footer { padding-top:40px !important; padding-bottom:40px !important; color:#999; }
-	</style>
-	<script type="text/javascript">
-
-		var app = {};
-
-		app.startGame = function () {
-			document.getElementById('intro').style.display = 'none';
-			document.getElementById('gameIframe').style.display = 'block';
-		};
-
-		app.init = function () {
-			document.getElementById('btnIntroCtrl').onclick = app.startGame;
-		};
-
-	</script>
+    <meta charset="UTF-8">
+    <title>NetCoDev / Einstein Rätsel</title>
+    <link rel="stylesheet" href="app/css/app.css">
+    <script src="app/js/GameConfig.js"></script>
+    <script src="app/js/GameUi.js"></script>
+    <script src="app/js/GameProxy.js"></script>
+    <script src="app/js/GameLandingPage.js"></script>
+    <script src="app/js/GameApp.js"></script>
+    <script src="app/js/GameRegistration.js"></script>
+    <script src="app/js/MainApp.js"></script>
+    <script>
+        window.onload = () => {
+            const InstMainApp = new MainApp(GAME_CONF);
+        };
+    </script>
 </head>
-<body onload="app.init()">
-	<div id="wrapper">
-		<div id="intro">
-			<div id="introContent">
-				<h2>Das Einsteinrätsel</h2>
-				<p>
-					Die Legende erzählt, daß Albert Einstein dieses Rätsel im letzten Jahrhundert verfasste. Er behauptete, 98% der Weltbevölkerung seien nicht in der Lage, es zu lösen.<br>&nbsp;<br>
-					<strong>Gehörst du zu den zwei Prozent?</strong>
-				</p>
+<body>
+    <div class="header">
+        <div>NetCoDev :: Einsteinrätsel</div>
+    </div>
+    <div id="GameLandingPage" class="container-landingpage">
+        <div class="landingpage-content">
+            <h2>Das Einsteinrätsel</h2>
+            <p>
+                Die Legende erzählt, daß angeblich Albert Einstein dieses Rätsel im letzten Jahrhundert verfasste. Gerüchten zur Folge soll er behauptet haben, dass 98% der Weltbevölkerung nicht in der Lage seien, es zu lösen.<br>&nbsp;<br>
+                <strong>Gehörst du zu den zwei Prozent?</strong>
+            </p>
+            <h3>Du willst das Rätsel lösen?</h3>
+            <p>
+                <strong>Du bist vollkommen entspannt? Dann wage den nächsten Schritt!</strong><br>
+                Mit Gelassenheit kommst du zum Ziel, lerne deine Enttäuschung und deinen Selbstzweifel zu beherrschen. Halte ein Handtuch* bereit und in Reichweite.
+                <br>&nbsp;<br>
+                <small>*Nein, du must nicht per Anhalter in irgendein Universum, das Handtuch ist für deine Tränen.</small>
+                <br>&nbsp;<br>
+                <strong>Lies die Spieletipps!</strong><br>
+                Die Spieltipps helfen dir die gute Laune zu behalten, sie sind deine logischen Bausteine zum Erfolg!
+            </p>
+            <h3>So funktioniert das Spiel</h3>
+            <p>
+                <strong>Des Rätsels Lösung!</strong><br>
+                Finde heraus, welches Haus den <strong>Fisch</strong> als Haustier hat.
+            </p>
+            <p>
+                <strong>Die Spieleicons</strong><br>
+                Es gibt fünf Kategorien mit jeweils fünf Eigenschaften:<br>&nbsp;<br>
+                - Farbe (color)<br>
+                - Haustier (animal)<br>
+                - Sport (sport)<br>
+                - Nationalität (flag)<br>
+                - Getränk (drink)<br>
+                <br>&nbsp;<br>
+                Wenn du ein Icon in ein Haus setzen möchtest, dann fahre mit deiner Mouse über das Icon und halte die
+                linke Mousetaste gedrückt, ziehe das Icon in den Bereich des von dir gewählten Haus und lass die linke
+                Mousetaste los. Das Icon springt dann automatisch an die richtige Stelle im Haus.
+                <br>&nbsp;<br>
+                Wenn du das Icon in einem Haus ändern möchtest, dann ziehe das neue Icon einfach über das Haus und lass das Icon los.
+                Wenn sich schon eine anderes Icon der selben Kategorie in diesem Haus befindet, dann springt dieses Icon wieder zurück
+                in seine Startposition.
+                <br>&nbsp;<br>
+                Entferne eine Icon in einem Haus, indem du es einfach außerhalb des Bereichs der Häuser ziehst und es dann losläßt. Das
+                Icon spring automatisch zu seiner Startpostion im Auswahlfeld.
+            </p>
+            <h3>Die Spiel-Tipps</h3>
+            <ul>
+                <li><strong>Tipp 1</strong></li>
+                <li>Der Engländer lebt im roten Haus.</li>
+                <li>Der Italiener hält einen Hund.</li>
+                <li>Der Däne trinkt gerne Wein.</li>
+                <li>Das grüne Haus steht links vom weissen Haus.</li>
+                <li>Der Besitzer des grünen Hauses trinkt Kaffee.</li>
+            </ul>
+            <ul>
+                <li><strong>Tipp 2</strong></li>
+                <li>Die Person, die gerne ringt, hält einen Vogel.</li>
+                <li>Der Mann, der im mittleren Haus wohnt, trinkt Milch.</li>
+                <li>Der Besitzer des gelben Hauses ist ein Fan des Laufsports.</li>
+                <li>Der Norweger wohnt im ersten Haus.</li>
+                <li>Der Fussball-Spieler wohnt neben dem, der eine Katze hält.</li>
+            </ul>
+            <ul>
+                <li><strong>Tipp 3</strong></li>
+                <li>Der Mann, der ein Pferd hält, wohnt neben dem, der Laufen geht.</li>
+                <li>Der Ruder-Fan trinkt gerne Bier.</li>
+                <li>Der Norweger wohnt neben dem blauen Haus.</li>
+                <li>Der Deutsche liebt das Turnen.</li>
+                <li>Der Fussball-Spieler hat einen Nachbarn, der Wasser trinkt.</li>
+            </ul>
+            <p>Du findest diese Tipps auch im Spielbereich, du musst sie dir jetzt nicht merken!</p>
+            <h3>Und jetzt viel Spaß!</h3>
+            <p>
+                <strong>Wenn du bereit bist dann klicke unten auf "Spiel starten"!</strong><br>
+            </p>
+            <p class="footer">
+                Dieses Spiel ist eine LearningByDoing-Applikation von <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a>, die Idee dazu basiert auf
+                einem Wochenende ohne Schlaf, dem Hang die Javascriptwelt zu erforschen und dem gnadenlosem
+                Willen, bei der Umsetzung alle erdenklichen Fehler zu machen und daraus zu lernen.
+                <br>&nbsp;<br>
+                Die erste Version wurde 2002 ohne OOP oder die heute beliebten Javascriptlibarys geschrieben, also kein JQuery oder Prototype als Hilfsmittel
+                für die Umsetzung des Javascriptcodes. Danach verstaubte das Spiel und 2021 erwachte der
+                Gedanke, den Code mit OOP umzusetzen, dabei mit dem aktuellen Javascriptstandard zu arbeiten und nach wie vor auf neue
+                bekannten Errungenschaften wie Bootstrap, Vue, React oder Angular zu verzichten.
+                <br>&nbsp;<br>
+                Hier findest du den Quellcode :<br>
+                <a href="https://github.com/chrobaks/einstein" title="https://github.com/chrobaks/einstein" target="_blank">github.com/chrobaks/einstein</a>
 
-				<h3>Du willst das Rätsel lösen?</h3>
-				<p>
-					<strong>Wage den nächsten Schritt nur wenn du gerade vollkommen entspannt bist!</strong><br>
-					Mit Gelassenheit kommst du zum Ziel, lerne deine Entäuschung und deinen Selbstzweifel zu beherrschen.
-					<br>&nbsp;<br>
-					<strong>Lies die Spieletipps!</strong><br>
-					Die Spieltipps helfen dir die gute Laune zu behalten, sie sind deine logischen Bausteine zum Erfolg!
-				</p>
+            </p>
+        </div>
+        <div class="landingpage-btn">
+            <button id="btnIntroCtrl" class="btn">Spiel starten</button>
+        </div>
+    </div>
+    <div id="GameApp" class="container-game"></div>
+    <div id="GameRegistration" class="container-landingpage">
+        <div class="landingpage-content">
+            <h2>Gratulation</h2>
+            <p>
+                <strong>Du darfst ab jetzt offiziell den Titel "Einsteinrätsellöser" tragen.</strong>
+            </p>
+            <h3>Verewige dich in der Einsteinrätsel-Hall-of-Fame</h3>
+                <form name="formUser" method="post">
+                        <strong>Deine Emailadresse</strong><small> (nicht öffentlich sichtbar)</small><br>
+                        <input name="email">
+                        <br>&nbsp;<br>
+                        <strong>Dein Spielername</strong><small> (muss nicht dein echter Name sein)</small><br>
+                        <input name="name">
 
-				<h3>So funktioniert das Spiel</h3>
-				<p>
-					<strong>Des Rätsels Lösung!</strong><br>
-					Finde heraus, welches Haus den <strong>Fisch</strong> als Haustier hat.
-				</p>
-				<p>
-					<strong>Die Spieleicons</strong><br>
-					Es gibt fünf Kategorien mit jeweils fünf Eigenschaften:<br>&nbsp;<br>
-					- Farbe (color)<br>
-					- Haustier (animal)<br>
-					- Sport (sport)<br>
-					- Nationalität (flag)<br>
-					- Getränk (drink)<br>
-					<br>&nbsp;<br>
-					Wenn du ein Icon in ein Haus setzen möchtest, dann fahre mit deiner Mouse über das Icon und halte die
-					linke Mousetaste gedrückt, ziehe das Icon in den Bereich des von dir gewählten Haus und lass die linke
-					Mousetaste los. Das Icon springt dann automatisch an die richtige Stelle im Haus.
-					<br>&nbsp;<br>
-					Wenn du das Icon in einem Haus ändern möchtest, dann ziehe das neue Icon einfach über das Haus und lass das Icon los.
-					Wenn sich schon eine anderes Icon der selben Kategorie in diesem Haus befindet, dann springt dieses Icon wieder zurück
-					in seine Startposition.
-					<br>&nbsp;<br>
-					Entferne eine Icon in einem Haus, indem du es einfach außerhalb des Bereichs der Häuser ziehst und es dann losläßt. Das
-					Icon spring automatisch zu seiner Startpostion im Auswahlfeld.
-				</p>
-
-				<h3>Die Spiel-Tipps</h3>
-				<ul>
-					<li><strong>Tipp 1</strong></li>
-					<li>Der Engländer lebt im roten Haus.</li>
-					<li>Der Italiener hält einen Hund.</li>
-					<li>Der Däne trinkt gerne Wein.</li>
-					<li>Das grüne Haus steht links vom weissen Haus.</li>
-					<li>Der Besitzer des grünen Hauses trinkt Kaffee.</li>
-				</ul>
-				<ul>
-					<li><strong>Tipp 2</strong></li>
-					<li>Die Person, die gerne ringt, hält einen Vogel.</li>
-					<li>Der Mann, der im mittleren Haus wohnt, trinkt Milch.</li>
-					<li>Der Besitzer des gelben Hauses ist ein Fan des Laufsports.</li>
-					<li>Der Norweger wohnt im ersten Haus.</li>
-					<li>Der Fussball-Spieler wohnt neben dem, der eine Katze hält.</li>
-				</ul>
-				<ul>
-					<li><strong>Tipp 3</strong></li>
-					<li>Der Mann, der ein Pferd hält, wohnt neben dem, der Laufen geht.</li>
-					<li>Der Ruder-Fan trinkt gerne Bier.</li>
-					<li>Der Norweger wohnt neben dem blauen Haus.</li>
-					<li>Der Deutsche liebt das Turnen.</li>
-					<li>Der Fussball-Spieler hat einen Nachbarn, der Wasser trinkt.</li>
-				</ul>
-				<p>Du findest diese Tipps auch im Spielbereich, du musst sie dir jetzt nicht merken!</p>
-
-				<h3>Und jetzt viel Spaß!</h3>
-				<p>
-					<strong>Wenn du bereit bist dann klicke unten auf "Spiel starten"!</strong><br>
-				</p>
-				<p class="footer">
-					Dieses Spiel ist eine LearningByDoing-Applikation von <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a>, die Idee dazu basiert auf
-					einem Wochenende ohne Schlaf, dem Hang die Javascriptwelt zu erforschen und dem gnadenlosem
-					Willen bei der Umsetzung alle erdenklichen Fehler zu machen und daraus zu lernen.
-					<br>&nbsp;<br>
-					Die erste Version wurde 2002 ohne OOP oder die heute beliebten Javascriptlibarys geschrieben, also kein JQuery oder Prototype als Hilfsmittel
-					für die Umsetzung des Javascriptcodes. Danach verstaubte das Spiel und 2015 erwachte der
-					Gedanke, den Code mit OOP umzusetzen, dabei mit dem Javascriptstandard 5 zu arbeiten und nachwievor auf alle
-					tollen Errungenschaften wie Bootstrap, JQuery oder gar Angular zu verzichten.
-					<br>&nbsp;<br>
-					Hier findest du den Quellcode :<br>
-					<a href="https://github.com/chrobaks/einstein" title="https://github.com/chrobaks/einstein" target="_blank">github.com/chrobaks/einstein</a>
-
-				</p>
-			</div>
-			<div id="introCtrl">
-				<input id="btnIntroCtrl" type="button" value="Spiel starten">
-			</div>
-		</div>
-		<iframe id="gameIframe" src="game.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" />
-	</div>	
+                </form>
+                <div class="form-msg"></div>
+            <p>
+                <button class="btn btn-submit">Speichern</button> <a href="hof.html" target="_blank" class="btn btn-hof btn-green">zur Hall of Fame</a>
+            </p>
+            <p class="footer">
+                Dieses Spiel ist eine LearningByDoing-Applikation von <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a>, die Idee dazu basiert auf
+                einem Wochenende ohne Schlaf, dem Hang die Javascriptwelt zu erforschen und dem gnadenlosem
+                Willen, bei der Umsetzung alle erdenklichen Fehler zu machen und daraus zu lernen.
+                <br>&nbsp;<br>
+                Die erste Version wurde 2002 ohne OOP oder die heute beliebten Javascriptlibarys geschrieben, also kein JQuery oder Prototype als Hilfsmittel
+                für die Umsetzung des Javascriptcodes. Danach verstaubte das Spiel und 2021 erwachte der
+                Gedanke, den Code mit OOP umzusetzen, dabei mit dem aktuellen Javascriptstandard zu arbeiten und nach wie vor auf neue
+                bekannten Errungenschaften wie Bootstrap, Vue, React oder Angular zu verzichten.
+                <br>&nbsp;<br>
+                Hier findest du den Quellcode :<br>
+                <a href="https://github.com/chrobaks/einstein" title="https://github.com/chrobaks/einstein" target="_blank">github.com/chrobaks/einstein</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>
-

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Hall of Fame / Einsteinrätsel</title>
+    <link rel="stylesheet" href="app/css/hof.css">
+    <script src="app/js/GameRegistration.js"></script>
+    <script>
+        window.onload = () => {
+            const InstGameRegistration = new GameRegistration({});
+        };
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div>NetCoDev :: Einsteinrätsel</div>
+    </div>
+    <div id="GameRegistration" class="container-landingpage">
+        <div class="landingpage-content">
+            <h2>Einsteinrätsel Hall of Fame</h2>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Name</th><th>Datum</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <p class="footer">
+                Dieses Spiel ist eine LearningByDoing-Applikation von:<br>
+                <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a>
+                <br>&nbsp;<br>
+                Hier findest du den Quellcode :<br>
+                <a href="https://github.com/chrobaks/einstein" title="https://github.com/chrobaks/einstein" target="_blank">github.com/chrobaks/einstein</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

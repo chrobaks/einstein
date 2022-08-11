@@ -1,0 +1,307 @@
+/*
+# -----------------------------
+# Main settings
+# -----------------------------
+*/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Arial sans-serif;
+    font-size: 12px;
+    background-image: url('../../image/background.png');
+    background-repeat: repeat;
+}
+button.btn,
+a.btn {background-color: #FD4703;color: #f5f5f5;text-align: center; padding: 5px 15px;border: 0;cursor: pointer;font-weight: bold;border-radius: 7px;}
+a.btn {display: inline-block;padding: 3px 15px !important;}
+a.btn-green {background-color: #00CC00;color: #fff !important;font-size: 11px;text-decoration: none;}
+.clearB {margin: 0;padding: 0;clear: both;}
+.header {width: 790px;margin: 0 auto;font-size: 24px;padding: 20px 0;background-color: rgba(255,255,255, 0.2);color: #e6e6e6;}
+.header div {padding-left:20px;}
+.txt-green {color: #00CC00;}
+.txt-bold {font-weight: bold;}
+/*
+# -----------------------------
+# Landingpage settings
+# -----------------------------
+*/
+.container-landingpage {
+    position:relative;
+    margin: 0 auto;
+    border:0;
+    width:790px;
+    height:490px;
+    background: #fff url('../../image/intro_bg.png') no-repeat;
+    display : block;
+}
+.landingpage-content {
+    position:absolute;
+    top:30px;
+    left:35px;
+    margin:0;
+    border:0;
+    width:722px;
+    height:400px;
+    background: transparent;
+    display : block;
+    overflow:auto;
+    font-size: 14px;
+}
+.landingpage-content a {color:#00CC00;}
+.landingpage-content ul {list-style: none;margin:0;padding:20px 120px 10px 30px;}
+.landingpage-content li {line-height: 1.9em;}
+.landingpage-content p {padding:5px 120px 10px 30px;}
+.landingpage-content h2, .landingpage-content h3  {padding:20px 120px 0 30px;color:#00CC00;}
+.landingpage-content p {line-height: 1.5em}
+.landingpage-content .footer { padding-top:40px !important; padding-bottom:40px !important; color:#999; }
+.landingpage-btn { position:absolute; top:440px; left:328px; width:224px; height:26px; }
+/*
+# -----------------------------
+# Game settings
+# -----------------------------
+*/
+
+.container-game-overlay {
+    display: none;
+    width: 790px;
+    height: 490px;
+    margin: 0 auto;
+    position: absolute;
+    top:0;
+    left:0;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.container-game-overlay .game-overlay-dialog  {
+    display: block;
+    width: 600px;
+    height: 400px;
+    margin: -200px 0 0 -300px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    background-color: #00cc00;
+    border-radius: 12px;
+}
+.game-overlay-dialog .overlay-dialog-header {
+    height: 28px;
+    color: #f5f5f5;
+    font-weight: bold;
+}
+
+.game-overlay-dialog .overlay-dialog-content {
+    height: 360px;
+    width: calc(100% - 10px);
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    text-align: center;
+}
+
+.game-overlay-dialog .overlay-dialog-content div {
+    padding: 30px;
+}
+
+.container-game {
+    display: none;
+    width: 790px;
+    height: 490px;
+    margin: 0 auto;
+    position: relative;
+    background: url('../../image/game_bg.png') no-repeat left top;
+}
+.container-game-items {
+    display: flex;
+    position: absolute;
+    top: 30px;
+    left: 287px;
+}
+.game-items-category {
+    width: 44px;
+    position: relative;
+}
+.game-items-category-icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+}
+.game-icon-drag {
+    display: none;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    z-index: 100;
+}
+.game-button-start,
+.game-button-help {
+    position: absolute;
+    width: 224px;
+    background-color: #FD4703;
+    color: #e6e6e6;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.game-button-start {
+    top: 112px;
+    left: 534px;
+    padding: 8px 0;
+    line-height: 1.6;
+    font-size: 20px;
+    font-weight: 400;
+}
+.game-button-help {
+    top: 172px;
+    left: 534px;
+    height: 46px;
+}
+.button-help-layer.first-layer {
+    display: none;
+    padding: 8px 0;
+    line-height: 1.6;
+    font-size: 20px;
+    font-weight: 400;
+}
+.button-help-layer.first-layer.active {
+    display: block;
+}
+.button-help-layer.second-layer {
+    display: none;
+}
+.button-help-layer.second-layer.active {
+    display: flex;
+}
+.second-layer-text {
+    width: 150px;
+    height: 46px;
+    background-color: #669999;
+    border-radius: 15px 0 0 15px;
+}
+.second-layer-btn {
+    width: 74px;
+    height: 46px;
+    cursor: pointer;
+    background-color: #FD4703;
+    border-radius: 0 15px 15px 0;
+}
+.second-layer-text div {
+    padding-top: 15px;
+    line-height: unset;
+}
+.second-layer-btn div {
+    padding-top: 5px;
+    line-height: unset;
+}
+.container-game-board {
+    display: flex;
+    width: 725px;
+    height: 170px;
+    margin: 0 auto;
+    padding: 3px 0 0 12px;
+    position: absolute;
+    top: 277px;
+    left: 33px;
+    background: url('../../image/bg_house.gif') no-repeat left top;
+}
+.house {
+    color:#f8f8f8;
+    background:transparent;
+    width: 139px;
+}
+.house-top {
+    float: left;
+    width: 96px;
+    height: 43px;
+    background: url('../../image/dachtop_default.gif') no-repeat right top;
+}
+.house-flag {
+    float: left;
+    width: 40px;
+    height: 40px;
+}
+.house-roof {
+    float: right;
+    width: 139px;
+    height: 23px;
+    background: url('../../image/dachcenter_default.gif') no-repeat left top;
+}
+.house-box {
+    clear: both;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 94px;
+    height: 90px;
+    margin-left: 7px;
+    padding-top: 3px;
+    border: 1px solid #999;
+}
+.house-box-item,
+.house-icon {
+    width: 40px;
+    height: 40px;
+    border: 0;
+}
+.house-icon {
+    display:none;
+}
+.house-box-item,
+.house-flag {
+    background: rgba(255, 255, 255, 0.5) url('../../image/bg_item.gif') no-repeat left top;
+}
+.container-game-drag-info {
+    position: absolute;
+    top: 230px;
+    left: 532px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 224px;
+    height: 20px;
+}
+.game-drag-info-box {
+    width: 100px;
+    height: 18px;
+    color: #fff;
+    line-height: 1.6;
+    text-align: center;
+}
+.container-game-instruction {
+    position: absolute;
+    top: 28px;
+    left: 33px;
+    width: 224px;
+    height: 203px;
+    overflow: hidden;
+    background: url('../../image/bg_textfield.gif') no-repeat left top;
+}
+.container-game-instruction div.scroll {
+    width: 224px;
+    height: 203px;
+    overflow: auto;
+}
+.game-instruction p {
+    padding: 5px 13px;
+    line-height: 1.5em;
+}
+
+.game-instruction ul {
+    padding: 5px 13px;
+    margin: 0;
+}
+.game-instruction p b {
+     font-size: 11px;
+ }
+/*
+# -----------------------------
+# GameRegistration settings
+# -----------------------------
+*/
+#GameRegistration {display: none;}
+#GameRegistration form {margin-left: 30px;}
+#GameRegistration .table-container {width: calc(100% - 150px);height:200px;overflow-y:auto;margin-left: 30px;}
+#GameRegistration table {width: 100%;}
+#GameRegistration th {background-color: #00cc00; color: #f5f5f5;position: sticky;top: 0;}
+#GameRegistration td {color: #00cc00;text-align: center;border-bottom: 1px solid #e6e6e6;line-height: 1.7em;}
+#GameRegistration .form-msg {margin-left: 30px;color: #FD4703;padding-top: 10px;}

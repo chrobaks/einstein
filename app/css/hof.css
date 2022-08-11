@@ -1,0 +1,61 @@
+/*
+# -----------------------------
+# Main settings
+# -----------------------------
+*/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Arial sans-serif;
+    font-size: 12px;
+    background: transparent url('../../image/background.png') repeat;
+}
+.header {width: 790px;margin: 0 auto;font-size: 24px;padding: 20px 0;background-color: rgba(255,255,255, 0.2);color: #e6e6e6;}
+.header div {padding-left:20px;}
+/*
+# -----------------------------
+# Landingpage settings
+# -----------------------------
+ */
+.container-landingpage {
+    position:relative;
+    margin: 0 auto;
+    border:0;
+    width:790px;
+    height:490px;
+    background: #fff url('../../image/intro_bg.png') no-repeat;
+    display : block;
+}
+.landingpage-content {
+    position:absolute;
+    top:30px;
+    left:35px;
+    margin:0;
+    border:0;
+    width:722px;
+    height:400px;
+    background: transparent;
+    display : block;
+    overflow:auto;
+    font-size: 14px;
+}
+.landingpage-content a {color:#00CC00;}
+.landingpage-content ul {list-style: none;margin:0;padding:20px 120px 10px 30px;}
+.landingpage-content li {line-height: 1.9em;}
+.landingpage-content p {padding:5px 120px 10px 30px;}
+.landingpage-content h2, .landingpage-content h3  {padding:20px 120px 0 30px;color:#00CC00;}
+.landingpage-content p {line-height: 1.5em}
+.landingpage-content .footer { padding-top:40px !important; padding-bottom:40px !important; color:#999; }
+.landingpage-btn { position:absolute; top:440px; left:328px; width:224px; height:26px; }
+/*
+# -----------------------------
+# GameRegistration settings
+# -----------------------------
+*/
+#GameRegistration {display: block;}
+#GameRegistration form {margin-left: 30px;}
+#GameRegistration .table-container {width: calc(100% - 150px);height:380px;overflow-y:auto;margin-left: 30px;}
+#GameRegistration table {width: 100%;}
+#GameRegistration th {background-color: #00cc00; color: #f5f5f5;position: sticky;top: 0;}
+#GameRegistration td {color: #00cc00;text-align: center;border-bottom: 1px solid #e6e6e6;line-height: 1.7em;}
+#GameRegistration .form-msg {margin-left: 30px;color: #FD4703;padding-top: 10px;}
