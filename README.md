@@ -3,7 +3,7 @@ Einsteinrätsel / LearningByDoing Application
 
 ### Require
 
-- javascript ver. 5.x
+- javascript ECMAScript 2021
 
 
 ### How to install:
@@ -31,6 +31,4 @@ https://www.netcodev.de/einstein/
 
 @ToDos :
 
-- Implement REST API
-
-- Implement Backend Application
+- Implement Mailer
