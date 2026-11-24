@@ -1,6 +1,10 @@
 class GameTranslation
 {
-    constructor() {
+    constructor(langConfig) {
+        this.langs = langConfig.langs;
+        this.lang = this.isValidLang(langConfig.default)
+            ? langConfig.default
+            : 'de';
         this.btnConfig = {
             'item-selector' : 'ctrl-trans',
             'active-selector' : 'active-trans'
@@ -12,17 +16,27 @@ class GameTranslation
     }
 
     initBtnEvent () {
-        console.log('init initBtnEvent');
         if (this.listBtn?.length) {
             this.listBtn.forEach(element => {
+                const transValue = element.dataset.transValue;
+                if (this.lang === transValue && this.isValidLang(this.lang)) {
+                    this.initActiveBtn(element);
+                }
                 element.addEventListener('click', () => {
-                    if (!element.classList.contains(this.btnConfig['active-selector'])) {
+                    const transValue = element.dataset.transValue;
+                    if (!element.classList.contains(this.btnConfig['active-selector']) && this.isValidLang(transValue)) {
                         this.changeActiveBtn(element);
-                        console.log(element.dataset.transValue)
                     }
                 });
             });
+        } else {
+            console.error('TranslationException:: Could not find translation buttons');
         }
+    }
+
+    initActiveBtn (element) {
+        element.classList.add(this.btnConfig['active-selector']);
+        this.activeBtn = element;
     }
 
     changeActiveBtn (element) {
@@ -33,6 +47,11 @@ class GameTranslation
         this.activeBtn.classList.remove(this.btnConfig['active-selector']);
         this.activeBtn = element;
         this.activeBtn.classList.add(this.btnConfig['active-selector']);
+        this.lang = element.dataset.transValue;
+    }
 
+    isValidLang (lang)
+    {
+        return this.langs.includes(lang);
     }
 }
