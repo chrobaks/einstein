@@ -1,0 +1,28 @@
+{
+    "de": {
+        "landing": {
+            "buttons": {
+                "start": "Spiel starten"
+            }
+        },
+        "game": {
+            "buttons": {
+                "start": "Start",
+                "stop": "Beenden"
+            }
+        }
+    },
+    "en": {
+        "landing": {
+            "buttons": {
+                "start": "Start game"
+            }
+        },
+        "game": {
+            "buttons": {
+                "start": "Start",
+                "stop": "End game"
+            }
+        }
+    }
+}
