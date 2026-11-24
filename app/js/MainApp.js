@@ -4,6 +4,7 @@ class MainApp
     GameLandingPage;
     GameApp;
     GameRegistration;
+    GameTranslation;
     imgList;
 
     constructor (GAME_CONF, IMAGES)
@@ -16,6 +17,7 @@ class MainApp
         this.GameLandingPage = new GameLandingPage(this.appProxy);
         this.GameApp = new GameApp(GAME_CONF,this.appProxy);
         this.GameRegistration = new GameRegistration(this.appProxy);
+        this.GameTranslation = new GameTranslation();
 
     }
 
