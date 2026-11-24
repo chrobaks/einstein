@@ -14,7 +14,9 @@ class GameRegistration
         this.btnHof = this.container.querySelector('button.btn-hof');
         this.setUserList();
 
-        this.btnSubmit.addEventListener('click', () => this.setUser());
+        if (this.btnSubmit) {
+            this.btnSubmit.addEventListener('click', () => this.setUser());
+        }
     }
 
     setUserList ()

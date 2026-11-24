@@ -31,6 +31,7 @@ class GameTranslation
             }
             this.translations = translations;
             this.isReady = true;
+            this.translatePage();
             return true;
         } catch (error) {
             console.error('TranslationException:: Could not load translations', error);
@@ -56,6 +57,21 @@ class GameTranslation
 
         console.error(`TranslationException:: Missing translation "${key}" for "${this.lang}" and fallback "de"`);
         return key;
+    }
+
+    translatePage () {
+        if (!this.isReady) {return;}
+        document.querySelectorAll('[data-trans-key]').forEach(element => {
+            element.textContent = this.getText(element.dataset.transKey);
+        });
+        // HTML is limited to editorial markup from our maintained dictionary.
+        document.querySelectorAll('[data-trans-html]').forEach(element => {
+            element.innerHTML = this.getText(element.dataset.transHtml);
+        });
+        document.documentElement.lang = this.lang;
+        this.listBtn.forEach(element => {
+            element.setAttribute('aria-pressed', String(element.dataset.transValue === this.lang));
+        });
     }
 
     getTranslationValue (lang, key) {
@@ -102,6 +118,7 @@ class GameTranslation
         this.activeBtn = element;
         this.activeBtn.classList.add(this.btnConfig['active-selector']);
         this.lang = element.dataset.transValue;
+        this.translatePage();
     }
 
     isValidLang (lang)

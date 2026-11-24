@@ -96,3 +96,18 @@ Backend registration responses will eventually provide a stable message code
    verify both languages and missing-key handling.
 
 Each step is intended to be reviewed and committed separately.
+
+## Static page binding
+
+`data-trans-key` identifies plain text elements, including page titles.
+`data-trans-html` is reserved for maintained editorial HTML (currently the goal
+sentence with its emphasized fish). It must never contain user-supplied data.
+The dictionary is applied after loading and whenever a language button changes
+selection. Existing form fields, links, and game containers are preserved.
+
+The footer uses `common.footer.projectDescription` and `common.footer.idea`
+around the existing brand link. Landing-page category labels currently use
+`landing.rules.categories.<categoryId>`, including the explanatory internal IDs.
+Clue list entries use numeric paths such as `game.clues.group1.items.0`.
+Language labels stay in their native language (Deutsch and English).
+Both pages have their own language controls; persistence follows in step 6.
