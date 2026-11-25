@@ -7,20 +7,17 @@ class MainApp
     GameTranslation;
     imgList;
 
-    constructor (GAME_CONF, IMAGES)
+    constructor (TRANSLATION_CONFIG, GAME_CONF, IMAGES)
     {
         this.imgList = IMAGES;
 
         this.setPreLoad();
         this.setAppProxy();
 
+        this.GameTranslation = new GameTranslation(TRANSLATION_CONFIG);
         this.GameLandingPage = new GameLandingPage(this.appProxy);
         this.GameApp = new GameApp(GAME_CONF,this.appProxy);
         this.GameRegistration = new GameRegistration(this.appProxy);
-        this.GameTranslation = new GameTranslation({
-            langs:['de', 'en'],
-            default: 'de'
-        });
 
     }
 

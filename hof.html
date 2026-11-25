@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title data-trans-key="hallOfFame.pageTitle">Hall of Fame / Einsteinrätsel</title>
     <link rel="stylesheet" href="app/css/hof.css">
+    <script src="app/js/GameConfig.js"></script>
     <script src="app/js/GameRegistration.js"></script>
     <script src="app/js/GameTranslation.js"></script>
     <script>
         window.onload = () => {
-            const translation = new GameTranslation({langs: ['de', 'en'], default: 'de'});
+            const translation = new GameTranslation(TRANSLATION_CONFIG);
             const InstGameRegistration = new GameRegistration({});
         };
     </script>
