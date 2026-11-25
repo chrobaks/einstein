@@ -92,8 +92,10 @@ Suggested commit: `feature/translation: Coordinate translation readiness and lan
    delegate to its existing rendering; the next step migrates its data source.
 4. Subscribe once in `GameApp` after its components exist. Initially refresh
    `GameInstruction`; extend this central refresh as other components migrate.
-5. Retain the unsubscribe function for disposal if instances are later replaced.
-   Do not attach fresh subscriptions during rendering.
+5. Keep the subscription for the page lifetime; no unsubscribe property is
+   needed while the application creates only one game instance. If instance
+   replacement is introduced later, retain and call the returned unsubscribe
+   function then. Do not attach fresh subscriptions during rendering.
 
 ### Verification
 

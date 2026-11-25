@@ -15,7 +15,9 @@ class GameRegistration
         this.btnSubmit = this.container.querySelector('button.btn-submit');
         this.btnHof = this.container.querySelector('button.btn-hof');
         this.translationHandler.onLanguageChange(() => this.updateTranslations());
-        this.setUserList();
+        if (this.container.querySelector('tbody')) {
+            this.setUserList();
+        }
 
         if (this.btnSubmit) {
             this.btnSubmit.addEventListener('click', () => this.setUser());

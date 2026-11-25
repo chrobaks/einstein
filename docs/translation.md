@@ -129,8 +129,8 @@ page and display a bilingual error message without requiring the dictionary.
 `translationHandler` and passes it to the five text-producing components.
 `GameApp` subscribes once with `onLanguageChange(callback)` and refreshes
 `GameInstruction`, `GameButton`, `HelpButton`, `GameInfo`, and `GameDialog`.
-The returned unsubscribe function is stored as `unsubscribeLanguageChange`.
-It is available for future disposal; the application currently creates one game.
+The subscription lasts for the page lifetime. The returned unsubscribe function
+is not stored because the application creates one game and does not replace it.
 
 `getText(key, parameters = {})` returns a string from the selected language or
 configured fallback. Missing entries return the key and log a diagnostic.
@@ -181,6 +181,8 @@ as described below. Date formatting remains unchanged.
 ## Registration messages and language persistence
 
 `GameRegistration` receives the existing translation service on both pages.
+It fetches the user list only when its container contains a table body, as on
+the Hall of Fame page. The main-page registration form makes no user-list request.
 It stores a message code and translates it through `registration.messages`.
 Language changes refresh the current message without altering form input.
 Messages are rendered with `textContent`, not server-provided HTML.
