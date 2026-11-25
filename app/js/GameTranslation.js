@@ -28,6 +28,7 @@ class GameTranslation
         this.activeBtn = null;
         this.translations = {};
         this.isReady = false;
+        this.languageListeners = new Set();
 
         this.initBtnEvent();
         this.ready = this.loadTranslations();
@@ -127,15 +128,31 @@ class GameTranslation
     }
 
     changeActiveBtn (element) {
-        if (!this.activeBtn) {
-            this.activeBtn = document.querySelector('.' + this.btnConfig['active-selector']);
-            if (!this.activeBtn) {return false;}
+        const lang = element.dataset.transValue;
+        if (!this.isValidLang(lang) || lang === this.lang) {return false;}
+        if (this.activeBtn) {
+            this.activeBtn.classList.remove(this.btnConfig['active-selector']);
         }
-        this.activeBtn.classList.remove(this.btnConfig['active-selector']);
         this.activeBtn = element;
         this.activeBtn.classList.add(this.btnConfig['active-selector']);
-        this.lang = element.dataset.transValue;
+        this.lang = lang;
         this.translatePage();
+        this.languageListeners.forEach(listener => {
+            try {
+                listener(this.lang);
+            } catch (error) {
+                console.error('TranslationException:: Language change listener failed', error);
+            }
+        });
+        return true;
+    }
+
+    onLanguageChange (callback) {
+        if (typeof callback !== 'function') {
+            throw new TypeError('TranslationException:: Language change listener must be a function');
+        }
+        this.languageListeners.add(callback);
+        return () => this.languageListeners.delete(callback);
     }
 
     isValidLang (lang)

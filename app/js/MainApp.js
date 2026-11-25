@@ -10,15 +10,31 @@ class MainApp
     constructor (TRANSLATION_CONFIG, GAME_CONF, IMAGES)
     {
         this.imgList = IMAGES;
+        this.startButton = document.getElementById('btnIntroCtrl');
+        this.initializationError = document.getElementById('gameInitializationError');
+        this.startButton.disabled = true;
+        this.ready = this.initialize(TRANSLATION_CONFIG, GAME_CONF);
+    }
 
-        this.setPreLoad();
-        this.setAppProxy();
-
-        this.GameTranslation = new GameTranslation(TRANSLATION_CONFIG);
-        this.GameLandingPage = new GameLandingPage(this.appProxy);
-        this.GameApp = new GameApp(GAME_CONF,this.appProxy);
-        this.GameRegistration = new GameRegistration(this.appProxy);
-
+    async initialize (translationConfig, gameConfig)
+    {
+        try {
+            this.GameTranslation = new GameTranslation(translationConfig);
+            if (!await this.GameTranslation.ready) {
+                throw new Error('Translation dictionary could not be loaded');
+            }
+            this.setPreLoad();
+            this.setAppProxy();
+            this.GameApp = new GameApp(gameConfig, this.appProxy);
+            this.GameRegistration = new GameRegistration(this.appProxy);
+            this.GameLandingPage = new GameLandingPage(this.appProxy);
+            this.startButton.disabled = false;
+            return true;
+        } catch (error) {
+            console.error('MainAppException:: Could not initialize game', error);
+            this.initializationError.hidden = false;
+            return false;
+        }
     }
 
     setPreLoad ()
