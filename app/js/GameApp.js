@@ -13,7 +13,6 @@ class GameApp
     gameDialog;
     container;
     translationHandler;
-    unsubscribeLanguageChange;
 
     constructor (translationHandler, GAME_CONF, AppProxy)
     {
@@ -23,7 +22,8 @@ class GameApp
         this.setGameProxy();
         this.setGameObjectsInstance();
         this.renderContainer();
-        this.unsubscribeLanguageChange = this.translationHandler.onLanguageChange(() => {
+        // Refresh component texts when the language changes, preserving the current game state.
+        this.translationHandler.onLanguageChange(() => {
             this.updateTranslations();
         });
     }
@@ -539,6 +539,7 @@ class HelpButton
 
         this.helpBtn = GameUi.getElement("div", 'second-layer-btn');
         this.helpBtnLabel = GameUi.getElement('div', '');
+        this.helpBtnLabel.textContent = '×';
         this.helpBtn.append(this.helpBtnLabel);
 
         this.secondLayer.append(this.helpText, this.helpBtn);
@@ -573,7 +574,8 @@ class HelpButton
     {
         this.firstLayer.textContent = this.translationHandler.getText('game.help.title');
         this.errorCountLabel.textContent = this.translationHandler.getText('game.help.errorCountLabel') + ' ';
-        this.helpBtnLabel.textContent = this.translationHandler.getText('game.help.stop');
+        this.helpBtn.title = this.translationHandler.getText('game.help.stop');
+        // this.helpBtnLabel.textContent = this.translationHandler.getText('game.help.stop');
     }
 }
 

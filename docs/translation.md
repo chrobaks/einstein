@@ -3,11 +3,12 @@
 ## Scope
 
 All application-owned interface text will be stored in `json/translation.json`.
-This document defines the structure and keys for implementation in subsequent
-steps. It does not introduce translations or change application behavior.
+This document describes the dictionary structure, page bindings, and dynamic
+translation lifecycle. Registration messages and language persistence remain
+planned work.
 
-The file will have two top-level language objects: `de` and `en`. German is the
-fallback language. Both objects must have the same keys and value types.
+The file will have two top-level language objects: `de` and `en`. The fallback language is configured centrally; the current configuration uses
+German. Both objects must have the same keys and value types.
 Keys use English camelCase and describe meaning rather than the current wording.
 Dot-separated paths, for example `game.buttons.start`, identify nested values
 within the selected language object.
@@ -75,10 +76,10 @@ Player names and email addresses are user data and are not translated.
 Date formatting is handled separately from translation strings.
 Developer console diagnostics do not belong to this interface dictionary.
 
-`GameTranslation` will load the dictionary before components first render
-translated text. A language change will update static text and notify dynamic
-components without recreating the game or resetting its state. The page's
-`lang` attribute and document title will follow the selected language.
+`GameTranslation` loads the dictionary before `MainApp` constructs game
+components. Language changes update static text and notify dynamic components
+without recreating the game. The page's `lang` attribute and document title
+follow the selected language.
 
 Backend registration responses will eventually provide a stable message code
 (`success`, `invalid` or `saveFailed`), mapped by the frontend to the corresponding
@@ -111,3 +112,69 @@ around the existing brand link. Landing-page category labels currently use
 Clue list entries use numeric paths such as `game.clues.group1.items.0`.
 Language labels stay in their native language (Deutsch and English).
 Both pages have their own language controls; persistence follows in step 6.
+
+
+## Implemented dynamic lifecycle
+
+`TRANSLATION_CONFIG` in `GameConfig.js` defines `langs`, `default`, `fallback`,
+and `url`. Both HTML entry points use this configuration. An unsupported default
+uses the fallback with a warning; an invalid fallback, URL, or language list
+raises a configuration error.
+
+`MainApp.ready` resolves to a boolean. Initialization waits for
+`GameTranslation.ready` before constructing the game. The start button stays
+disabled until initialization succeeds. Load failures retain the static landing
+page and display a bilingual error message without requiring the dictionary.
+
+`MainApp` passes its translation instance to `GameApp`, which stores it as
+`translationHandler` and passes it to the five text-producing components.
+`GameApp` subscribes once with `onLanguageChange(callback)` and refreshes
+`GameInstruction`, `GameButton`, `HelpButton`, `GameInfo`, and `GameDialog`.
+The returned unsubscribe function is stored as `unsubscribeLanguageChange`.
+It is available for future disposal; the application currently creates one game.
+
+`getText(key, parameters = {})` returns a string from the selected language or
+configured fallback. Missing entries return the key and log a diagnostic.
+Placeholder replacement is literal, leaves unknown placeholders unchanged, and
+also applies to fallback strings. Dialogs use `{count}` and select `.one` for 1
+and `.other` for all other numeric counts in the supported languages.
+
+Instruction order remains in JavaScript. Instructions use title/text entries;
+clues use the same three groups of five strings as the landing page. JavaScript
+creates block containers, headings, and actual `ul`/`li` elements using
+`textContent`. A section change resets scroll; a language refresh restores the
+previous offset, subject to the available rendered content height.
+
+`GameInfo` stores category and item IDs, translating only their labels. Help
+labels and dialog labels update existing elements and preserve counters,
+visibility, and click handlers. The start/stop label follows the current game
+state. Language changes do not dispatch game-control events.
+
+`CONTENT`, `TEXT_ALIAS`, and their `GameUi.config` properties have been removed.
+`GAME_CONF` now contains `[VIEW_ID, ITEMS, COLOR_FILTER]`.
+
+## Verification on 2026-11-25
+
+Automated checks passed for:
+
+- Syntax of every JavaScript file and resolution of all static HTML keys.
+- Matching German/English dictionary paths and types.
+- Five instructions, three groups of five clues, all five categories and 25 items.
+- Repeated language changes across all five dynamic components, preserving
+  instruction mode/scroll offset, selected IDs, start/help state, error count,
+  and dialog visibility in a lightweight DOM simulation.
+- No extra game events or duplicate retry handlers during those refreshes.
+- Counts 0, 1, and multiple errors, literal placeholders, fallback, missing keys,
+  and unsubscription.
+- Removal of legacy content/alias consumers and whitespace validation.
+
+Earlier focused checks also covered delayed initialization, language selection
+while loading, and HTTP/network/JSON/configuration failures. The combined checks
+above use a simulated DOM; they do not verify browser layout or real pointer
+interactions. An attempt to open a temporary local PHP server in the available
+browser failed with `ERR_CONNECTION_REFUSED`. Browser acceptance therefore
+remains pending; see the roadmap checklist.
+
+Remaining functionality: registration validation/backend messages are still
+German, language selection is not persisted across pages/reloads, and dates are
+not localized. Those tasks belong to the subsequent work phase.

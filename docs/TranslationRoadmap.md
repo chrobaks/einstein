@@ -244,3 +244,35 @@ After dynamic game translation is complete, handle registration messages,
 backend message codes, and language persistence between reloads and the Hall of
 Fame. Review date localization separately. These tasks remain outside the
 component migration above and should receive their own reviewable changes.
+
+
+## Progress and acceptance status (2026-11-25)
+
+Steps 1–8 are implemented. Step 9 automated component/dictionary checks and
+lifecycle documentation are complete. Browser acceptance is pending because the
+available browser could not reach the temporary local PHP server
+(`ERR_CONNECTION_REFUSED`). No browser or visual pass is claimed.
+
+### Browser acceptance checklist
+
+Run with a local HTTP/PHP server, not a file URL. On both `index.html` and
+`hof.html`, verify German/English headings, page title, language controls, and
+absence of unexpected console diagnostics.
+
+- Start the game, switch languages repeatedly, and stop it. Confirm the correct
+  button label, five instructions before play, and 15 clues during play.
+- Assign, replace, and remove icons using the mouse. Switch languages with a
+  partially filled board and check that houses, images, and positions stay put.
+- Open help, produce a nonzero error count, and switch languages. Verify the
+  active help layer and counter remain intact.
+- Produce an incorrect completed solution. Switch languages with its dialog
+  open, check the count and translated labels, then retry exactly once.
+- Complete the correct solution to reach registration. Enter test form values
+  without submitting; switch languages and confirm input values remain intact.
+- Scroll the clues, change language, and check the current section/scroll
+  position. Check longer English labels for clipping and overlap.
+- Simulate a failed dictionary request in browser developer tools. Reload and
+  verify that the start button stays disabled and a visible error appears.
+
+Keep real Hall-of-Fame writes out of these translation checks. Record browser
+results before marking step 9 fully accepted.
