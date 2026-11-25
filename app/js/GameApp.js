@@ -12,14 +12,25 @@ class GameApp
     gameInstruction;
     gameDialog;
     container;
+    translationHandler;
+    unsubscribeLanguageChange;
 
-    constructor (GAME_CONF, AppProxy)
+    constructor (translationHandler, GAME_CONF, AppProxy)
     {
+        this.translationHandler = translationHandler;
         this.appProxy = AppProxy;
         this.setConfig(...GAME_CONF);
         this.setGameProxy();
         this.setGameObjectsInstance();
         this.renderContainer();
+        this.unsubscribeLanguageChange = this.translationHandler.onLanguageChange(() => {
+            this.updateTranslations();
+        });
+    }
+
+    updateTranslations ()
+    {
+        this.gameInstruction.updateTranslations();
     }
 
     setConfig (VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER, CONTENT)
@@ -135,7 +146,7 @@ class GameApp
             this.gameButton = new GameButton(this.gameProxy);
             this.helpButton = new HelpButton(this.gameProxy);
             this.gameInfo = new GameInfo();
-            this.gameInstruction = new GameInstruction();
+            this.gameInstruction = new GameInstruction(this.translationHandler);
             this.gameDialog = new GameDialog(this.gameProxy);
         } catch (error) {console.error(error.message)}
     }
@@ -546,12 +557,15 @@ class HelpButton
 
 class GameInstruction
 {
+    translationHandler;
+    contentKey = 'instruction';
     container;
     scrollContainer;
     contentContainer;
 
-    constructor ()
+    constructor (translationHandler)
     {
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'container-game-instruction');
 
         this.renderContainer();
@@ -568,6 +582,7 @@ class GameInstruction
 
     setContent (contentKey = 'instruction')
     {
+        this.contentKey = contentKey;
         const content = GameUi.config.content[contentKey];
         this.scrollContainer.scrollTo(0, 0);
         this.contentContainer.innerHTML = "";
@@ -583,6 +598,14 @@ class GameInstruction
             p.append(header, br, text);
             this.contentContainer.append(p);
         });
+    }
+
+    updateTranslations ()
+    {
+        const scrollTop = this.scrollContainer.scrollTop;
+        const scrollLeft = this.scrollContainer.scrollLeft;
+        this.setContent(this.contentKey);
+        this.scrollContainer.scrollTo(scrollLeft, scrollTop);
     }
 }
 

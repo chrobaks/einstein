@@ -25,7 +25,7 @@ class MainApp
             }
             this.setPreLoad();
             this.setAppProxy();
-            this.GameApp = new GameApp(gameConfig, this.appProxy);
+            this.GameApp = new GameApp(this.GameTranslation, gameConfig, this.appProxy);
             this.GameRegistration = new GameRegistration(this.appProxy);
             this.GameLandingPage = new GameLandingPage(this.appProxy);
             this.startButton.disabled = false;
