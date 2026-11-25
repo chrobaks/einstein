@@ -106,7 +106,9 @@ const CONTENT = {
 
 const TRANSLATION_CONFIG = {
     langs:['de', 'en'],
-    default: 'de'
+    default: 'de',
+    fallback: 'de',
+    url: 'json/translation.json'
 };
 
 const GAME_CONF = [VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER, CONTENT];

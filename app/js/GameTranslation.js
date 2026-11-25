@@ -1,10 +1,25 @@
 class GameTranslation
 {
     constructor(langConfig) {
-        this.langs = langConfig.langs;
+        if (!langConfig || !Array.isArray(langConfig.langs) || langConfig.langs.length === 0
+            || !langConfig.langs.every(lang => typeof lang === 'string' && lang.trim().length > 0)) {
+            throw new Error('TranslationException:: langs must be a non-empty array of language codes');
+        }
+        this.langs = [...langConfig.langs];
+        if (!this.isValidLang(langConfig.fallback)) {
+            throw new Error('TranslationException:: fallback must be a supported language');
+        }
+        if (typeof langConfig.url !== 'string' || langConfig.url.trim().length === 0) {
+            throw new Error('TranslationException:: url must be a non-empty string');
+        }
+        this.fallback = langConfig.fallback;
+        this.url = langConfig.url;
         this.lang = this.isValidLang(langConfig.default)
             ? langConfig.default
-            : 'de';
+            : this.fallback;
+        if (!this.isValidLang(langConfig.default)) {
+            console.warn(`TranslationException:: Unsupported default language; using fallback "${this.fallback}"`);
+        }
         this.btnConfig = {
             'item-selector' : 'ctrl-trans',
             'active-selector' : 'active-trans'
@@ -20,21 +35,23 @@ class GameTranslation
 
     async loadTranslations () {
         try {
-            const response = await fetch('json/translation.json');
+            const response = await fetch(this.url);
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
             const translations = await response.json();
             if (!translations || typeof translations !== 'object' || Array.isArray(translations)
-                || !translations.de || typeof translations.de !== 'object' || Array.isArray(translations.de)) {
-                throw new Error('Missing or invalid German translation dictionary');
+                || !Object.prototype.hasOwnProperty.call(translations, this.fallback)
+                || !translations[this.fallback] || typeof translations[this.fallback] !== 'object'
+                || Array.isArray(translations[this.fallback])) {
+                throw new Error(`Missing or invalid fallback dictionary "${this.fallback}"`);
             }
             this.translations = translations;
             this.isReady = true;
             this.translatePage();
             return true;
         } catch (error) {
-            console.error('TranslationException:: Could not load translations', error);
+            console.error(`TranslationException:: Could not load translations from "${this.url}"`, error);
             return false;
         }
     }
@@ -52,10 +69,10 @@ class GameTranslation
         const text = this.getTranslationValue(this.lang, key);
         if (typeof text === 'string') {return text;}
 
-        const fallback = this.getTranslationValue('de', key);
+        const fallback = this.getTranslationValue(this.fallback, key);
         if (typeof fallback === 'string') {return fallback;}
 
-        console.error(`TranslationException:: Missing translation "${key}" for "${this.lang}" and fallback "de"`);
+        console.error(`TranslationException:: Missing translation "${key}" for "${this.lang}" and fallback "${this.fallback}"`);
         return key;
     }
 
