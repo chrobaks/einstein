@@ -2,33 +2,43 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Hall of Fame / Einsteinrätsel</title>
+    <title data-trans-key="hallOfFame.pageTitle">Hall of Fame / Einsteinrätsel</title>
     <link rel="stylesheet" href="app/css/hof.css">
+    <script src="app/js/GameConfig.js"></script>
     <script src="app/js/GameRegistration.js"></script>
+    <script src="app/js/GameTranslation.js"></script>
     <script>
-        window.onload = () => {
-            const InstGameRegistration = new GameRegistration({});
+        window.onload = async () => {
+            const translation = new GameTranslation(TRANSLATION_CONFIG);
+            if (await translation.ready) {
+                const InstGameRegistration = new GameRegistration({}, translation);
+            } else {
+                document.getElementById('hofInitializationError').hidden = false;
+            }
         };
     </script>
 </head>
 <body>
     <div class="header">
-        <div>NetCoDev :: Einsteinrätsel</div>
+        <div><span data-trans-key="common.brand">NetCoDev :: Einsteinrätsel</span></div>
+        <div><button type="button" data-trans-value="de" class="ctrl-trans">Deutsch</button> | <button type="button" data-trans-value="en" class="ctrl-trans">English</button></div>
     </div>
     <div id="GameRegistration" class="container-landingpage">
         <div class="landingpage-content">
-            <h2>Einsteinrätsel Hall of Fame</h2>
+            <h2><span data-trans-key="hallOfFame.title">Einsteinrätsel Hall of Fame</span></h2>
+            <p id="hofInitializationError" role="alert" hidden>Die Seite konnte nicht geladen werden. Bitte lade sie erneut. / The page could not be loaded. Please reload it.</p>
+            <div class="form-msg" role="status"></div>
             <div class="table-container">
                 <table>
-                    <thead><tr><th>Name</th><th>Datum</th></tr></thead>
+                    <thead><tr><th><span data-trans-key="hallOfFame.columns.name">Name</span></th><th><span data-trans-key="hallOfFame.columns.date">Datum</span></th></tr></thead>
                     <tbody></tbody>
                 </table>
             </div>
             <p class="footer">
-                Dieses Spiel ist eine LearningByDoing-Applikation von:<br>
+                <span data-trans-key="common.footer.shortDescription">Dieses Spiel ist eine LearningByDoing-Applikation von:</span><br>
                 <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a>
                 <br>&nbsp;<br>
-                Hier findest du den Quellcode :<br>
+                <span data-trans-key="common.footer.sourceLabel">Hier findest du den Quellcode :</span><br>
                 <a href="https://github.com/chrobaks/einstein" title="https://github.com/chrobaks/einstein" target="_blank">github.com/chrobaks/einstein</a>
             </p>
         </div>

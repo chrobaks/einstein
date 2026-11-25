@@ -12,26 +12,39 @@ class GameApp
     gameInstruction;
     gameDialog;
     container;
+    translationHandler;
 
-    constructor (GAME_CONF, AppProxy)
+    constructor (translationHandler, GAME_CONF, AppProxy)
     {
+        this.translationHandler = translationHandler;
         this.appProxy = AppProxy;
         this.setConfig(...GAME_CONF);
         this.setGameProxy();
         this.setGameObjectsInstance();
         this.renderContainer();
+        // Refresh component texts when the language changes, preserving the current game state.
+        this.translationHandler.onLanguageChange(() => {
+            this.updateTranslations();
+        });
     }
 
-    setConfig (VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER, CONTENT)
+    updateTranslations ()
+    {
+        this.gameInstruction.updateTranslations();
+        this.gameButton.updateTranslations();
+        this.helpButton.updateTranslations();
+        this.gameInfo.updateTranslations();
+        this.gameDialog.updateTranslations();
+    }
+
+    setConfig (VIEW_ID, ITEMS, COLOR_FILTER)
     {
         try {
             GameUi.setConf({
                 viewId: VIEW_ID,
                 maxHouse: ITEMS[Object.keys(ITEMS)[0]].length,
                 items: ITEMS,
-                textAlias: TEXT_ALIAS,
                 colorFilter: COLOR_FILTER,
-                content: CONTENT,
             });
         } catch (error) {console.error(error.message)}
     }
@@ -132,11 +145,11 @@ class GameApp
             this.itemCategory = new ItemCategory(this.gameProxy);
             this.itemBoard = new ItemBoard(this.gameProxy);
             this.dragItem = new DragItem(this.gameProxy);
-            this.gameButton = new GameButton(this.gameProxy);
-            this.helpButton = new HelpButton(this.gameProxy);
-            this.gameInfo = new GameInfo();
-            this.gameInstruction = new GameInstruction();
-            this.gameDialog = new GameDialog(this.gameProxy);
+            this.gameButton = new GameButton(this.gameProxy, this.translationHandler);
+            this.helpButton = new HelpButton(this.gameProxy, this.translationHandler);
+            this.gameInfo = new GameInfo(this.translationHandler);
+            this.gameInstruction = new GameInstruction(this.translationHandler);
+            this.gameDialog = new GameDialog(this.gameProxy, this.translationHandler);
         } catch (error) {console.error(error.message)}
     }
 
@@ -446,12 +459,14 @@ class DragItem
 class GameButton
 {
     gameProxy;
+    translationHandler;
     container;
     gameIsStart;
 
-    constructor (gameProxy)
+    constructor (gameProxy, translationHandler)
     {
         this.gameProxy = gameProxy;
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'game-button-start');
         this.gameIsStart = false;
 
@@ -459,9 +474,15 @@ class GameButton
         this.setEvents();
     }
 
-    setContent (text = "start")
+    setContent ()
     {
-        this.container.innerText = text.toUpperCase();
+        const key = this.gameIsStart ? 'game.buttons.stop' : 'game.buttons.start';
+        this.container.textContent = this.translationHandler.getText(key).toUpperCase();
+    }
+
+    updateTranslations ()
+    {
+        this.setContent();
     }
 
     setEvents ()
@@ -469,8 +490,7 @@ class GameButton
         this.container.addEventListener('click', () => {
             this.gameIsStart = !(this.gameIsStart === true);
             this.gameProxy.setEvent('clickGameButton', this.gameIsStart);
-            const text = this.gameIsStart ? 'beenden' : 'start';
-            this.setContent(text);
+            this.setContent();
         });
     }
 }
@@ -478,6 +498,9 @@ class GameButton
 class HelpButton
 {
     gameProxy;
+    translationHandler;
+    errorCountLabel;
+    helpBtnLabel;
     container;
     playWithHelp;
     firstLayer;
@@ -487,14 +510,16 @@ class HelpButton
     errorCountContainer;
     errorCount;
 
-    constructor (gameProxy)
+    constructor (gameProxy, translationHandler)
     {
         this.gameProxy = gameProxy;
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'game-button-help');
         this.playWithHelp = false;
         this.errorCount = 0;
 
         this.renderContainer();
+        this.updateTranslations();
         this.setEvents();
     }
 
@@ -503,18 +528,19 @@ class HelpButton
         const helpTextDiv = GameUi.getElement("div", '');
 
         this.firstLayer = GameUi.getElement("div", ['button-help-layer', 'first-layer', 'active']);
-        this.firstLayer.innerText = 'Spielhilfe';
 
         this.secondLayer = GameUi.getElement("div", ['button-help-layer', 'second-layer']);
         this.helpText = GameUi.getElement("div", 'second-layer-text');
         this.errorCountContainer = GameUi.getElement("span", 'game-error-count');
         this.errorCountContainer.innerText = this.errorCount;
-        helpTextDiv.innerHTML = 'Fehleranzahl: ';
-        helpTextDiv.append(this.errorCountContainer);
+        this.errorCountLabel = GameUi.getElement('span', '');
+        helpTextDiv.append(this.errorCountLabel, this.errorCountContainer);
         this.helpText.append(helpTextDiv);
 
         this.helpBtn = GameUi.getElement("div", 'second-layer-btn');
-        this.helpBtn.innerHTML = '<div>Hilfe beenden</div>';
+        this.helpBtnLabel = GameUi.getElement('div', '');
+        this.helpBtnLabel.textContent = '×';
+        this.helpBtn.append(this.helpBtnLabel);
 
         this.secondLayer.append(this.helpText, this.helpBtn);
 
@@ -540,18 +566,30 @@ class HelpButton
 
     setErrorCounter (errorCount)
     {
-        this.errorCountContainer.innerText = errorCount;
+        this.errorCount = errorCount;
+        this.errorCountContainer.textContent = errorCount;
+    }
+
+    updateTranslations ()
+    {
+        this.firstLayer.textContent = this.translationHandler.getText('game.help.title');
+        this.errorCountLabel.textContent = this.translationHandler.getText('game.help.errorCountLabel') + ' ';
+        this.helpBtn.title = this.translationHandler.getText('game.help.stop');
+        // this.helpBtnLabel.textContent = this.translationHandler.getText('game.help.stop');
     }
 }
 
 class GameInstruction
 {
+    translationHandler;
+    contentKey = 'instruction';
     container;
     scrollContainer;
     contentContainer;
 
-    constructor ()
+    constructor (translationHandler)
     {
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'container-game-instruction');
 
         this.renderContainer();
@@ -568,30 +606,62 @@ class GameInstruction
 
     setContent (contentKey = 'instruction')
     {
-        const content = GameUi.config.content[contentKey];
-        this.scrollContainer.scrollTo(0, 0);
-        this.contentContainer.innerHTML = "";
-        content.map(data => {
-            const p  = GameUi.getElement("p", '');
+        if (!['instruction', 'notice'].includes(contentKey)) {
+            throw new Error(`GameInstructionException:: Unknown section "${contentKey}"`);
+        }
+        const sectionChanged = this.contentKey !== contentKey;
+        this.contentKey = contentKey;
+        this.renderContent();
+        if (sectionChanged) {this.scrollContainer.scrollTo(0, 0);}
+    }
+
+    renderContent ()
+    {
+        const scrollTop = this.scrollContainer.scrollTop;
+        const scrollLeft = this.scrollContainer.scrollLeft;
+        const isInstruction = this.contentKey === 'instruction';
+        const keys = isInstruction
+            ? ['origin', 'goal', 'assign', 'check', 'restart']
+            : ['group1', 'group2', 'group3'];
+        this.contentContainer.replaceChildren();
+        keys.forEach(key => {
+            const section = GameUi.getElement('div', 'instruction-section');
             const header = GameUi.getElement("b", '');
-            const text = (contentKey === 'instruction')
-                ? GameUi.getElement("span", '')
-                : GameUi.getElement("ul", '');
+            const prefix = isInstruction ? `game.instructions.${key}` : `game.clues.${key}`;
+            header.textContent = this.translationHandler.getText(`${prefix}.title`);
             const br = document.createElement('br');
-            header.innerText = data.header;
-            text.innerHTML = data.text;
-            p.append(header, br, text);
-            this.contentContainer.append(p);
+            const text = GameUi.getElement(isInstruction ? 'span' : 'ul', '');
+            if (isInstruction) {
+                text.textContent = this.translationHandler.getText(`${prefix}.text`);
+            } else {
+                for (let index = 0; index < 5; index++) {
+                    const item = GameUi.getElement('li', '');
+                    item.textContent = this.translationHandler.getText(`${prefix}.items.${index}`);
+                    text.append(item);
+                }
+            }
+            section.append(header, br, text);
+            this.contentContainer.append(section);
         });
+        this.scrollContainer.scrollTo(scrollLeft, scrollTop);
+    }
+
+    updateTranslations ()
+    {
+        this.renderContent();
     }
 }
 
 class GameInfo
 {
     container;
+    translationHandler;
+    categoryId = '';
+    itemId = '';
 
-    constructor ()
+    constructor (translationHandler)
     {
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'container-game-drag-info');
 
         this.renderContainer();
@@ -608,27 +678,44 @@ class GameInfo
 
     setContent (infoKey, infoValue)
     {
-        if (infoKey) {
-            const box = this.container.querySelector(`[data-info="${infoKey}"]`);
-            if (box) {
-                infoValue = (GameUi.config.textAlias?.[infoValue]) ? GameUi.config.textAlias[infoValue] : infoValue;
-                box.innerText = GameUi.ucFirst(infoValue);
-            }
+        if (!infoKey) {
+            this.categoryId = '';
+            this.itemId = '';
+        } else if (infoKey === 'category') {
+            this.categoryId = infoValue;
+        } else if (infoKey === 'value') {
+            this.itemId = infoValue;
         } else {
-            [...this.container.querySelectorAll(`[data-info]`)].map(box => { box.innerText = ''; });
+            return;
         }
+        this.updateTranslations();
+    }
+
+    updateTranslations ()
+    {
+        this.container.querySelector('[data-info="category"]').textContent = this.categoryId
+            ? this.translationHandler.getText(`game.categories.${this.categoryId}`) : '';
+        this.container.querySelector('[data-info="value"]').textContent = this.itemId
+            ? this.translationHandler.getText(`game.items.${this.itemId}`) : '';
     }
 }
 
 class GameDialog
 {
     gameProxy;
+    translationHandler;
+    errorCount = null;
+    errorHeading;
+    reassurance;
+    description;
+    retryButton;
     container;
     content;
 
-    constructor (eventProxy)
+    constructor (eventProxy, translationHandler)
     {
         this.gameProxy = eventProxy;
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'container-game-overlay');
         this.renderContainer();
         this.setContent();
@@ -646,15 +733,13 @@ class GameDialog
 
     setContent ()
     {
-        const h3 = GameUi.getElement("h3", 'txt-green');
-        const noMatter = GameUi.getElement("div", 'txt-bold');
-        noMatter.innerText = 'Das macht nichts!';
-        const description = GameUi.getElement("div", '');
-        description.innerText = 'Angeblich meinte Einstein mit "nicht lösen", das nur 2% der Weltbevölkerung nicht aufgeben. Sie werden das Rätsel lösen, in dem sie aus ihren Fehlern lernen!';
-        const btn = GameUi.getElement("button", 'btn');
-        btn.innerText = 'Ich versuche es nochmal!';
-        this.content.append(h3, noMatter, description, btn);
-        btn.addEventListener('click', () => {
+        this.errorHeading = GameUi.getElement("h3", 'txt-green');
+        this.reassurance = GameUi.getElement("div", 'txt-bold');
+        this.description = GameUi.getElement("div", '');
+        this.retryButton = GameUi.getElement("button", 'btn');
+        this.content.append(this.errorHeading, this.reassurance, this.description, this.retryButton);
+        this.updateTranslations();
+        this.retryButton.addEventListener('click', () => {
             this.container.style.display = 'none';
             this.gameProxy.setEvent('clickButtonDialog','');
         });
@@ -662,7 +747,19 @@ class GameDialog
 
     showDialog (errors)
     {
-        this.content.querySelector("h3").innerText = `Du hast ${errors} Fehler gemacht.`;
+        this.errorCount = errors;
+        this.updateTranslations();
         this.container.style.display = 'block';
+    }
+
+    updateTranslations ()
+    {
+        this.reassurance.textContent = this.translationHandler.getText('game.dialog.reassurance');
+        this.description.textContent = this.translationHandler.getText('game.dialog.description');
+        this.retryButton.textContent = this.translationHandler.getText('game.dialog.retry');
+        this.errorHeading.textContent = this.errorCount === null ? '' : this.translationHandler.getText(
+            `game.dialog.errorCount.${this.errorCount === 1 ? 'one' : 'other'}`,
+            {count: this.errorCount}
+        );
     }
 }
