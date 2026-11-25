@@ -33,7 +33,7 @@ class GameApp
         this.gameInstruction.updateTranslations();
     }
 
-    setConfig (VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER, CONTENT)
+    setConfig (VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER)
     {
         try {
             GameUi.setConf({
@@ -42,7 +42,6 @@ class GameApp
                 items: ITEMS,
                 textAlias: TEXT_ALIAS,
                 colorFilter: COLOR_FILTER,
-                content: CONTENT,
             });
         } catch (error) {console.error(error.message)}
     }
@@ -582,30 +581,49 @@ class GameInstruction
 
     setContent (contentKey = 'instruction')
     {
+        if (!['instruction', 'notice'].includes(contentKey)) {
+            throw new Error(`GameInstructionException:: Unknown section "${contentKey}"`);
+        }
+        const sectionChanged = this.contentKey !== contentKey;
         this.contentKey = contentKey;
-        const content = GameUi.config.content[contentKey];
-        this.scrollContainer.scrollTo(0, 0);
-        this.contentContainer.innerHTML = "";
-        content.map(data => {
-            const p  = GameUi.getElement("p", '');
+        this.renderContent();
+        if (sectionChanged) {this.scrollContainer.scrollTo(0, 0);}
+    }
+
+    renderContent ()
+    {
+        const scrollTop = this.scrollContainer.scrollTop;
+        const scrollLeft = this.scrollContainer.scrollLeft;
+        const isInstruction = this.contentKey === 'instruction';
+        const keys = isInstruction
+            ? ['origin', 'goal', 'assign', 'check', 'restart']
+            : ['group1', 'group2', 'group3'];
+        this.contentContainer.replaceChildren();
+        keys.forEach(key => {
+            const section = GameUi.getElement('div', 'instruction-section');
             const header = GameUi.getElement("b", '');
-            const text = (contentKey === 'instruction')
-                ? GameUi.getElement("span", '')
-                : GameUi.getElement("ul", '');
+            const prefix = isInstruction ? `game.instructions.${key}` : `game.clues.${key}`;
+            header.textContent = this.translationHandler.getText(`${prefix}.title`);
             const br = document.createElement('br');
-            header.innerText = data.header;
-            text.innerHTML = data.text;
-            p.append(header, br, text);
-            this.contentContainer.append(p);
+            const text = GameUi.getElement(isInstruction ? 'span' : 'ul', '');
+            if (isInstruction) {
+                text.textContent = this.translationHandler.getText(`${prefix}.text`);
+            } else {
+                for (let index = 0; index < 5; index++) {
+                    const item = GameUi.getElement('li', '');
+                    item.textContent = this.translationHandler.getText(`${prefix}.items.${index}`);
+                    text.append(item);
+                }
+            }
+            section.append(header, br, text);
+            this.contentContainer.append(section);
         });
+        this.scrollContainer.scrollTo(scrollLeft, scrollTop);
     }
 
     updateTranslations ()
     {
-        const scrollTop = this.scrollContainer.scrollTop;
-        const scrollLeft = this.scrollContainer.scrollLeft;
-        this.setContent(this.contentKey);
-        this.scrollContainer.scrollTo(scrollLeft, scrollTop);
+        this.renderContent();
     }
 }
 

@@ -286,7 +286,7 @@ a.btn-green {background-color: #00CC00;color: #fff !important;font-size: 11px;te
     height: 203px;
     overflow: auto;
 }
-.game-instruction p {
+.game-instruction .instruction-section {
     padding: 5px 13px;
     line-height: 1.5em;
 }
@@ -295,7 +295,7 @@ a.btn-green {background-color: #00CC00;color: #fff !important;font-size: 11px;te
     padding: 5px 13px;
     margin: 0;
 }
-.game-instruction p b {
+.game-instruction .instruction-section b {
      font-size: 11px;
  }
 /*

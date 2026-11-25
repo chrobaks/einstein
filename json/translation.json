@@ -78,6 +78,28 @@
                         "Der Fussball-Spieler hat einen Nachbarn, der Wasser trinkt."
                     ]
                 }
+            },
+            "instructions": {
+                "origin": {
+                    "title": "Wer hat das Spiel erfunden?",
+                    "text": "Angeblich verfasste Albert Einstein dieses Rätsel im letzten Jahrhundert. Er soll behauptet haben, 98% der Weltbevölkerung seien nicht in der Lage, es zu lösen. Viel Spass beim Ausprobieren!!!"
+                },
+                "goal": {
+                    "title": "Wie löse ich das Rätsel?",
+                    "text": "Finden Sie heraus, zu welchem Haus der Fisch gehört. Mit einem Klick auf START bekommen Sie die für die Lösung benötigten Tipps."
+                },
+                "assign": {
+                    "title": "Wie fülle ich ein Haus?",
+                    "text": "Ziehen Sie ein Spiele-Icon zu dem Haus, in das Sie es setzen möchten. Lassen Sie das Spiele-Icon dann los und es springt von selbst an die für es vorgesehene Stelle im Haus."
+                },
+                "check": {
+                    "title": "Wie prüfe ich das Ergebnis?",
+                    "text": "Wenn alle Icons in den Häusern sind, wird das Ergebnis automatisch geprüft."
+                },
+                "restart": {
+                    "title": "Wie starte ich das Spiel neu?",
+                    "text": "Mit einem Klick auf BEENDEN werden alle gesetzten Icons aus den Häusern entfernt."
+                }
             }
         },
         "common": {
@@ -200,6 +222,28 @@
                         "The German loves gymnastics.",
                         "The football player has a neighbour who drinks water."
                     ]
+                }
+            },
+            "instructions": {
+                "origin": {
+                    "title": "Who invented the puzzle?",
+                    "text": "Albert Einstein is said to have devised this puzzle in the last century. He supposedly claimed that 98% of the world’s population would be unable to solve it. Have fun trying!"
+                },
+                "goal": {
+                    "title": "How do I solve the puzzle?",
+                    "text": "Find out which house has the fish. Click START to see the clues needed to solve the puzzle."
+                },
+                "assign": {
+                    "title": "How do I fill a house?",
+                    "text": "Drag a game icon onto the house where you want to place it. Release the icon and it will snap into its designated position."
+                },
+                "check": {
+                    "title": "How do I check my solution?",
+                    "text": "Your solution is checked automatically when all icons have been placed in the houses."
+                },
+                "restart": {
+                    "title": "How do I restart the game?",
+                    "text": "Click END GAME to remove all placed icons from the houses."
                 }
             }
         },
