@@ -14,11 +14,18 @@ class GameTranslation
         }
         this.fallback = langConfig.fallback;
         this.url = langConfig.url;
+        this.storageKey = langConfig.storageKey;
         this.lang = this.isValidLang(langConfig.default)
             ? langConfig.default
             : this.fallback;
         if (!this.isValidLang(langConfig.default)) {
             console.warn(`TranslationException:: Unsupported default language; using fallback "${this.fallback}"`);
+        }
+        try {
+            const savedLang = this.storageKey ? localStorage.getItem(this.storageKey) : null;
+            if (this.isValidLang(savedLang)) {this.lang = savedLang;}
+        } catch (error) {
+            console.warn('TranslationException:: Could not read saved language', error);
         }
         this.btnConfig = {
             'item-selector' : 'ctrl-trans',
@@ -143,6 +150,11 @@ class GameTranslation
         this.activeBtn = element;
         this.activeBtn.classList.add(this.btnConfig['active-selector']);
         this.lang = lang;
+        try {
+            if (this.storageKey) {localStorage.setItem(this.storageKey, this.lang);}
+        } catch (error) {
+            console.warn('TranslationException:: Could not save language', error);
+        }
         this.translatePage();
         this.languageListeners.forEach(listener => {
             try {

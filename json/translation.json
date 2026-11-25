@@ -181,6 +181,14 @@
             "buttons": {
                 "save": "Speichern",
                 "hallOfFame": "zur Hall of Fame"
+            },
+            "messages": {
+                "required": "Alle Felder benötigen einen Eintrag.",
+                "success": "Du wurdest erfolgreich in die Hall of Fame aufgenommen.",
+                "invalid": "Deine Daten sind nicht korrekt.",
+                "saveFailed": "Die Daten konnten nicht gespeichert werden.",
+                "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuche es erneut.",
+                "listFailed": "Die Hall of Fame konnte nicht geladen werden. Bitte lade die Seite erneut."
             }
         },
         "hallOfFame": {
@@ -374,6 +382,14 @@
             "buttons": {
                 "save": "Save",
                 "hallOfFame": "Go to the Hall of Fame"
+            },
+            "messages": {
+                "required": "Please fill in all fields.",
+                "success": "You have been added to the Hall of Fame.",
+                "invalid": "Your details are not valid.",
+                "saveFailed": "Your details could not be saved.",
+                "requestFailed": "The request could not be completed. Please try again.",
+                "listFailed": "The Hall of Fame could not be loaded. Please reload the page."
             }
         },
         "hallOfFame": {

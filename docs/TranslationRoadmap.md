@@ -276,3 +276,25 @@ absence of unexpected console diagnostics.
 
 Keep real Hall-of-Fame writes out of these translation checks. Record browser
 results before marking step 9 fully accepted.
+
+
+## Subsequent work implemented (2026-11-25)
+
+Registration messages now use dictionary entries and backend message codes.
+The current message updates on language changes. Request and user-list failures
+have translated messages. The language preference is saved and restored through
+localStorage on both pages, with validation and graceful handling of blocked
+storage. Focused JavaScript and isolated PHP backend checks passed; real
+Hall-of-Fame data was not changed. Date localization remains deferred.
+
+Additional browser acceptance checks:
+
+- Select English, reload, and open the Hall of Fame on the same origin; English
+  should remain selected. Switch to German there and reload the main page.
+- Trigger required/invalid registration messages and switch languages without
+  losing field values. Use a disposable test environment for actual submissions.
+- Verify translated request errors when the backend is unavailable and the
+  visible Hall-of-Fame loading error when its dictionary cannot load.
+
+The browser acceptance status above remains pending; automated checks do not
+replace that visual and interactive verification.

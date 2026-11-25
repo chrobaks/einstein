@@ -4,8 +4,7 @@
 
 All application-owned interface text will be stored in `json/translation.json`.
 This document describes the dictionary structure, page bindings, and dynamic
-translation lifecycle. Registration messages and language persistence remain
-planned work.
+translation lifecycle. Registration messages and language persistence are implemented.
 
 The file will have two top-level language objects: `de` and `en`. The fallback language is configured centrally; the current configuration uses
 German. Both objects must have the same keys and value types.
@@ -111,7 +110,7 @@ around the existing brand link. Landing-page category labels currently use
 `landing.rules.categories.<categoryId>`, including the explanatory internal IDs.
 Clue list entries use numeric paths such as `game.clues.group1.items.0`.
 Language labels stay in their native language (Deutsch and English).
-Both pages have their own language controls; persistence follows in step 6.
+Both pages have their own language controls and restore the saved language.
 
 
 ## Implemented dynamic lifecycle
@@ -175,6 +174,39 @@ interactions. An attempt to open a temporary local PHP server in the available
 browser failed with `ERR_CONNECTION_REFUSED`. Browser acceptance therefore
 remains pending; see the roadmap checklist.
 
-Remaining functionality: registration validation/backend messages are still
-German, language selection is not persisted across pages/reloads, and dates are
-not localized. Those tasks belong to the subsequent work phase.
+Registration messages and language persistence were subsequently implemented
+as described below. Date formatting remains unchanged.
+
+
+## Registration messages and language persistence
+
+`GameRegistration` receives the existing translation service on both pages.
+It stores a message code and translates it through `registration.messages`.
+Language changes refresh the current message without altering form input.
+Messages are rendered with `textContent`, not server-provided HTML.
+
+The registration endpoint now returns `{status, code}` instead of `{status, msg}`.
+Its codes are `success`, `invalid`, and `saveFailed`; statuses remain `success`
+and `error`. Frontend validation uses `required`. Network, HTTP, malformed JSON,
+and unexpected response codes use `requestFailed`; user-list failures use
+`listFailed`. Deploy frontend and backend together because this response contract
+has changed. Backend field validation and solution checking remain in place.
+The user-list path is resolved relative to the PHP file with `__DIR__`.
+
+`TRANSLATION_CONFIG.storageKey` is `einstein.language`. A supported language
+saved in localStorage takes precedence over the default during construction.
+Unknown saved languages are ignored. Valid language changes are saved before
+listeners run. Storage access failures emit a warning and leave the current-page
+language switch usable. Only the language code is stored; no form data is saved.
+Preferences apply to pages on the same origin (scheme, host, and port).
+
+The Hall of Fame waits for dictionary readiness before constructing registration
+and list handling. Dictionary failures show a static bilingual error message.
+
+Focused automated checks passed for registration message codes and language
+refreshes, HTTP/network/JSON/unexpected-response failures, persistence restoration,
+unknown saved languages, and blocked storage. PHP checks exercised invalid input,
+success, and write failure using temporary storage, without modifying the actual
+Hall of Fame file. All JavaScript syntax and PHP syntax checks passed.
+Browser layout and real end-to-end form interaction remain subject to the manual
+acceptance checklist. Existing Hall-of-Fame dates retain their stored format.

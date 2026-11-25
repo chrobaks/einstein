@@ -85,7 +85,8 @@ const TRANSLATION_CONFIG = {
     langs:['de', 'en'],
     default: 'de',
     fallback: 'de',
-    url: 'json/translation.json'
+    url: 'json/translation.json',
+    storageKey: 'einstein.language'
 };
 
 const GAME_CONF = [VIEW_ID, ITEMS, COLOR_FILTER];

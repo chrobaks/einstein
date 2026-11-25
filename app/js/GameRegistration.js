@@ -5,13 +5,16 @@ class GameRegistration
     formMsg;
     userList;
 
-    constructor (AppProxy)
+    constructor (AppProxy, translationHandler)
     {
         this.appProxy = AppProxy;
+        this.translationHandler = translationHandler;
+        this.messageCode = null;
         this.container = document.getElementById('GameRegistration');
         this.formMsg = this.container.querySelector('.form-msg');
         this.btnSubmit = this.container.querySelector('button.btn-submit');
         this.btnHof = this.container.querySelector('button.btn-hof');
+        this.translationHandler.onLanguageChange(() => this.updateTranslations());
         this.setUserList();
 
         if (this.btnSubmit) {
@@ -19,27 +22,24 @@ class GameRegistration
         }
     }
 
-    setUserList ()
+    async setUserList ()
     {
-        fetch('backend/game.php?act=userList', {
-            method : 'get',
-            mode:    'cors',
-            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                this.userList = data;
-                this.renderUserList();
-            })
-            .catch((error) => {
-                if (typeof error !== 'undefined') {console.error("Error GameRegistrationRequest: " + error.message);}
-            });
+        try {
+            const response = await fetch('backend/game.php?act=userList');
+            if (!response.ok) {throw new Error(`HTTP ${response.status}`);}
+            const data = await response.json();
+            if (!Array.isArray(data)) {throw new Error('Invalid user list response');}
+            this.userList = data;
+            this.renderUserList();
+        } catch (error) {
+            console.error('Error GameRegistrationRequest:', error);
+            this.setMsg('listFailed');
+        }
     }
 
     setUser ()
     {
         try {
-            const formMsg = this.container.querySelector('.form-msg');
             const form = document.forms['formUser'];
             const formData = [];
             formData["act"] = "userForm";
@@ -47,7 +47,7 @@ class GameRegistration
             formData["email"] = form['email'].value.trim();
 
             if (!this.checkFormData(formData)) {
-                this.setMsg('Alle Felder benötigen einen Eintrag');
+                this.setMsg('required');
                 return false;
             }
             this.setUserRequest(formData);
@@ -55,29 +55,40 @@ class GameRegistration
         } catch(error) {console.error("Error setUser: " + error.message)}
     }
 
-    setUserRequest (formData)
+    async setUserRequest (formData)
     {
         try {
-            fetch('backend/game.php', {
+            const response = await fetch('backend/game.php', {
                 method: 'post',
                 body: JSON.stringify(GameUi.formPostData(formData)),
                 headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    this.setMsg(data?.msg);
-                })
-                .catch((error) => {
-                    if (typeof error !== 'undefined') {
-                        console.error("Error GameRegistrationRequest: " + error.message);
-                    }
-                });
-        } catch(error) {console.error("Error GameRegistrationRequest: " + error.message)}
+            });
+            if (!response.ok) {throw new Error(`HTTP ${response.status}`);}
+            const data = await response.json();
+            const expectedStatus = {success: 'success', invalid: 'error', saveFailed: 'error'};
+            if (!data || !Object.prototype.hasOwnProperty.call(expectedStatus, data.code)
+                || data.status !== expectedStatus[data.code]) {
+                throw new Error('Invalid registration response');
+            }
+            this.setMsg(data.code);
+        } catch (error) {
+            console.error('Error GameRegistrationRequest:', error);
+            this.setMsg('requestFailed');
+        }
     }
 
-    setMsg (msg)
+    setMsg (code)
     {
-        this.formMsg.innerHTML = msg;
+        this.messageCode = code;
+        this.updateTranslations();
+    }
+
+    updateTranslations ()
+    {
+        if (this.formMsg) {
+            this.formMsg.textContent = this.messageCode
+                ? this.translationHandler.getText(`registration.messages.${this.messageCode}`) : '';
+        }
     }
 
     checkFormData (formData)

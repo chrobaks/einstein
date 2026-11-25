@@ -9,7 +9,7 @@ class Game
 
     public function __construct ()
     {
-        $this->jsonFile = '../json/hall_of_fame.json';
+        $this->jsonFile = __DIR__ . '/../json/hall_of_fame.json';
         $this->userList = $this->getJsonUserList();
         $this->filters = [
             "name" => '/^[\w\s\d\.\(\)öüäÖÜÄß,;_-]{1,250}$/i',
@@ -82,13 +82,13 @@ class Game
 
         $response = [];
         $response["status"] = (empty($error)) ? "success" : "error";
-        $response["msg"] = (empty($error)) ? "Du wurdest erfolgreich in die Hall of Fame aufgenommen." : "Deine Daten sind nicht korrekt.";
+        $response["code"] = (empty($error)) ? "success" : "invalid";
 
         if (empty($error)) {
             $this->userList[] = $user;
             if(!file_put_contents($this->jsonFile, json_encode($this->userList))) {
                 $response["status"] = "error";
-                $response["msg"] = "Die Daten konnten nicht gespeichert werden.";
+                $response["code"] = "saveFailed";
             }
         }
 
