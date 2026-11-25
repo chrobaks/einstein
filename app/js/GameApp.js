@@ -31,6 +31,7 @@ class GameApp
     updateTranslations ()
     {
         this.gameInstruction.updateTranslations();
+        this.gameButton.updateTranslations();
     }
 
     setConfig (VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER)
@@ -142,7 +143,7 @@ class GameApp
             this.itemCategory = new ItemCategory(this.gameProxy);
             this.itemBoard = new ItemBoard(this.gameProxy);
             this.dragItem = new DragItem(this.gameProxy);
-            this.gameButton = new GameButton(this.gameProxy);
+            this.gameButton = new GameButton(this.gameProxy, this.translationHandler);
             this.helpButton = new HelpButton(this.gameProxy);
             this.gameInfo = new GameInfo();
             this.gameInstruction = new GameInstruction(this.translationHandler);
@@ -456,12 +457,14 @@ class DragItem
 class GameButton
 {
     gameProxy;
+    translationHandler;
     container;
     gameIsStart;
 
-    constructor (gameProxy)
+    constructor (gameProxy, translationHandler)
     {
         this.gameProxy = gameProxy;
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'game-button-start');
         this.gameIsStart = false;
 
@@ -469,9 +472,15 @@ class GameButton
         this.setEvents();
     }
 
-    setContent (text = "start")
+    setContent ()
     {
-        this.container.innerText = text.toUpperCase();
+        const key = this.gameIsStart ? 'game.buttons.stop' : 'game.buttons.start';
+        this.container.textContent = this.translationHandler.getText(key).toUpperCase();
+    }
+
+    updateTranslations ()
+    {
+        this.setContent();
     }
 
     setEvents ()
@@ -479,8 +488,7 @@ class GameButton
         this.container.addEventListener('click', () => {
             this.gameIsStart = !(this.gameIsStart === true);
             this.gameProxy.setEvent('clickGameButton', this.gameIsStart);
-            const text = this.gameIsStart ? 'beenden' : 'start';
-            this.setContent(text);
+            this.setContent();
         });
     }
 }
