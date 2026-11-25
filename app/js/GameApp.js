@@ -32,6 +32,7 @@ class GameApp
     {
         this.gameInstruction.updateTranslations();
         this.gameButton.updateTranslations();
+        this.helpButton.updateTranslations();
     }
 
     setConfig (VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER)
@@ -144,7 +145,7 @@ class GameApp
             this.itemBoard = new ItemBoard(this.gameProxy);
             this.dragItem = new DragItem(this.gameProxy);
             this.gameButton = new GameButton(this.gameProxy, this.translationHandler);
-            this.helpButton = new HelpButton(this.gameProxy);
+            this.helpButton = new HelpButton(this.gameProxy, this.translationHandler);
             this.gameInfo = new GameInfo();
             this.gameInstruction = new GameInstruction(this.translationHandler);
             this.gameDialog = new GameDialog(this.gameProxy);
@@ -496,6 +497,9 @@ class GameButton
 class HelpButton
 {
     gameProxy;
+    translationHandler;
+    errorCountLabel;
+    helpBtnLabel;
     container;
     playWithHelp;
     firstLayer;
@@ -505,14 +509,16 @@ class HelpButton
     errorCountContainer;
     errorCount;
 
-    constructor (gameProxy)
+    constructor (gameProxy, translationHandler)
     {
         this.gameProxy = gameProxy;
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'game-button-help');
         this.playWithHelp = false;
         this.errorCount = 0;
 
         this.renderContainer();
+        this.updateTranslations();
         this.setEvents();
     }
 
@@ -521,18 +527,18 @@ class HelpButton
         const helpTextDiv = GameUi.getElement("div", '');
 
         this.firstLayer = GameUi.getElement("div", ['button-help-layer', 'first-layer', 'active']);
-        this.firstLayer.innerText = 'Spielhilfe';
 
         this.secondLayer = GameUi.getElement("div", ['button-help-layer', 'second-layer']);
         this.helpText = GameUi.getElement("div", 'second-layer-text');
         this.errorCountContainer = GameUi.getElement("span", 'game-error-count');
         this.errorCountContainer.innerText = this.errorCount;
-        helpTextDiv.innerHTML = 'Fehleranzahl: ';
-        helpTextDiv.append(this.errorCountContainer);
+        this.errorCountLabel = GameUi.getElement('span', '');
+        helpTextDiv.append(this.errorCountLabel, this.errorCountContainer);
         this.helpText.append(helpTextDiv);
 
         this.helpBtn = GameUi.getElement("div", 'second-layer-btn');
-        this.helpBtn.innerHTML = '<div>Hilfe beenden</div>';
+        this.helpBtnLabel = GameUi.getElement('div', '');
+        this.helpBtn.append(this.helpBtnLabel);
 
         this.secondLayer.append(this.helpText, this.helpBtn);
 
@@ -558,7 +564,15 @@ class HelpButton
 
     setErrorCounter (errorCount)
     {
-        this.errorCountContainer.innerText = errorCount;
+        this.errorCount = errorCount;
+        this.errorCountContainer.textContent = errorCount;
+    }
+
+    updateTranslations ()
+    {
+        this.firstLayer.textContent = this.translationHandler.getText('game.help.title');
+        this.errorCountLabel.textContent = this.translationHandler.getText('game.help.errorCountLabel') + ' ';
+        this.helpBtnLabel.textContent = this.translationHandler.getText('game.help.stop');
     }
 }
 

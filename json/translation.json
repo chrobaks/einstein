@@ -100,6 +100,11 @@
                     "title": "Wie starte ich das Spiel neu?",
                     "text": "Mit einem Klick auf BEENDEN werden alle gesetzten Icons aus den Häusern entfernt."
                 }
+            },
+            "help": {
+                "title": "Spielhilfe",
+                "errorCountLabel": "Fehleranzahl:",
+                "stop": "Hilfe beenden"
             }
         },
         "common": {
@@ -245,6 +250,11 @@
                     "title": "How do I restart the game?",
                     "text": "Click END GAME to remove all placed icons from the houses."
                 }
+            },
+            "help": {
+                "title": "Game help",
+                "errorCountLabel": "Errors:",
+                "stop": "Stop help"
             }
         },
         "common": {
