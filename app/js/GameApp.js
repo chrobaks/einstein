@@ -34,6 +34,7 @@ class GameApp
         this.gameButton.updateTranslations();
         this.helpButton.updateTranslations();
         this.gameInfo.updateTranslations();
+        this.gameDialog.updateTranslations();
     }
 
     setConfig (VIEW_ID, ITEMS, COLOR_FILTER)
@@ -148,7 +149,7 @@ class GameApp
             this.helpButton = new HelpButton(this.gameProxy, this.translationHandler);
             this.gameInfo = new GameInfo(this.translationHandler);
             this.gameInstruction = new GameInstruction(this.translationHandler);
-            this.gameDialog = new GameDialog(this.gameProxy);
+            this.gameDialog = new GameDialog(this.gameProxy, this.translationHandler);
         } catch (error) {console.error(error.message)}
     }
 
@@ -700,12 +701,19 @@ class GameInfo
 class GameDialog
 {
     gameProxy;
+    translationHandler;
+    errorCount = null;
+    errorHeading;
+    reassurance;
+    description;
+    retryButton;
     container;
     content;
 
-    constructor (eventProxy)
+    constructor (eventProxy, translationHandler)
     {
         this.gameProxy = eventProxy;
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'container-game-overlay');
         this.renderContainer();
         this.setContent();
@@ -723,15 +731,13 @@ class GameDialog
 
     setContent ()
     {
-        const h3 = GameUi.getElement("h3", 'txt-green');
-        const noMatter = GameUi.getElement("div", 'txt-bold');
-        noMatter.innerText = 'Das macht nichts!';
-        const description = GameUi.getElement("div", '');
-        description.innerText = 'Angeblich meinte Einstein mit "nicht lösen", das nur 2% der Weltbevölkerung nicht aufgeben. Sie werden das Rätsel lösen, in dem sie aus ihren Fehlern lernen!';
-        const btn = GameUi.getElement("button", 'btn');
-        btn.innerText = 'Ich versuche es nochmal!';
-        this.content.append(h3, noMatter, description, btn);
-        btn.addEventListener('click', () => {
+        this.errorHeading = GameUi.getElement("h3", 'txt-green');
+        this.reassurance = GameUi.getElement("div", 'txt-bold');
+        this.description = GameUi.getElement("div", '');
+        this.retryButton = GameUi.getElement("button", 'btn');
+        this.content.append(this.errorHeading, this.reassurance, this.description, this.retryButton);
+        this.updateTranslations();
+        this.retryButton.addEventListener('click', () => {
             this.container.style.display = 'none';
             this.gameProxy.setEvent('clickButtonDialog','');
         });
@@ -739,7 +745,19 @@ class GameDialog
 
     showDialog (errors)
     {
-        this.content.querySelector("h3").innerText = `Du hast ${errors} Fehler gemacht.`;
+        this.errorCount = errors;
+        this.updateTranslations();
         this.container.style.display = 'block';
+    }
+
+    updateTranslations ()
+    {
+        this.reassurance.textContent = this.translationHandler.getText('game.dialog.reassurance');
+        this.description.textContent = this.translationHandler.getText('game.dialog.description');
+        this.retryButton.textContent = this.translationHandler.getText('game.dialog.retry');
+        this.errorHeading.textContent = this.errorCount === null ? '' : this.translationHandler.getText(
+            `game.dialog.errorCount.${this.errorCount === 1 ? 'one' : 'other'}`,
+            {count: this.errorCount}
+        );
     }
 }

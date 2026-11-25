@@ -139,6 +139,15 @@
                 "ringen": "Ringen",
                 "turnen": "Turnen",
                 "rudern": "Rudern"
+            },
+            "dialog": {
+                "reassurance": "Das macht nichts!",
+                "description": "Angeblich meinte Einstein mit „nicht lösen“, dass nur 2% der Weltbevölkerung nicht aufgeben. Sie werden das Rätsel lösen, indem sie aus ihren Fehlern lernen!",
+                "retry": "Ich versuche es nochmal!",
+                "errorCount": {
+                    "one": "Du hast {count} Fehler gemacht.",
+                    "other": "Du hast {count} Fehler gemacht."
+                }
             }
         },
         "common": {
@@ -323,6 +332,15 @@
                 "ringen": "Wrestling",
                 "turnen": "Gymnastics",
                 "rudern": "Rowing"
+            },
+            "dialog": {
+                "reassurance": "That’s OK!",
+                "description": "Perhaps Einstein meant that only 2% of the world’s population would not give up. They will solve the puzzle by learning from their mistakes!",
+                "retry": "I’ll try again!",
+                "errorCount": {
+                    "one": "You made {count} mistake.",
+                    "other": "You made {count} mistakes."
+                }
             }
         },
         "common": {

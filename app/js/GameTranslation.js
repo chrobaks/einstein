@@ -57,7 +57,7 @@ class GameTranslation
         }
     }
 
-    getText (key) {
+    getText (key, parameters = {}) {
         if (typeof key !== 'string' || key.length === 0) {
             console.error('TranslationException:: Expected a non-empty translation key');
             return typeof key === 'string' ? key : String(key);
@@ -68,13 +68,20 @@ class GameTranslation
         }
 
         const text = this.getTranslationValue(this.lang, key);
-        if (typeof text === 'string') {return text;}
+        if (typeof text === 'string') {return this.replaceParameters(text, parameters);}
 
         const fallback = this.getTranslationValue(this.fallback, key);
-        if (typeof fallback === 'string') {return fallback;}
+        if (typeof fallback === 'string') {return this.replaceParameters(fallback, parameters);}
 
         console.error(`TranslationException:: Missing translation "${key}" for "${this.lang}" and fallback "${this.fallback}"`);
         return key;
+    }
+
+    replaceParameters (text, parameters) {
+        return text.replace(/\{([a-zA-Z0-9_]+)\}/g, (placeholder, name) => {
+            return Object.prototype.hasOwnProperty.call(parameters, name)
+                ? String(parameters[name]) : placeholder;
+        });
     }
 
     translatePage () {
