@@ -54,14 +54,6 @@ const ITEMS = {
     'sport' : ['laufen' , 'fussball' , 'ringen' , 'turnen' , 'rudern' ],
 };
 const VIEW_ID = 'GameApp';
-const TEXT_ALIAS = {
-    'daenemark': 'dänemark',
-    'gruen': 'grün',
-    'country': 'land',
-    'color': 'farbe',
-    'animal': 'haustier',
-    'drink': 'getränk',
-};
 const COLOR_FILTER = {
     'default' : {
         backgroundColor : "transparent",
@@ -96,4 +88,4 @@ const TRANSLATION_CONFIG = {
     url: 'json/translation.json'
 };
 
-const GAME_CONF = [VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER];
+const GAME_CONF = [VIEW_ID, ITEMS, COLOR_FILTER];

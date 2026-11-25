@@ -105,6 +105,40 @@
                 "title": "Spielhilfe",
                 "errorCountLabel": "Fehleranzahl:",
                 "stop": "Hilfe beenden"
+            },
+            "categories": {
+                "country": "Nationalität",
+                "color": "Farbe",
+                "animal": "Haustier",
+                "drink": "Getränk",
+                "sport": "Sport"
+            },
+            "items": {
+                "norwegen": "Norwegen",
+                "daenemark": "Dänemark",
+                "england": "England",
+                "deutschland": "Deutschland",
+                "italien": "Italien",
+                "gelb": "Gelb",
+                "blau": "Blau",
+                "rot": "Rot",
+                "gruen": "Grün",
+                "weiss": "Weiß",
+                "katze": "Katze",
+                "pferd": "Pferd",
+                "vogel": "Vogel",
+                "fisch": "Fisch",
+                "hund": "Hund",
+                "wasser": "Wasser",
+                "wein": "Wein",
+                "milch": "Milch",
+                "kaffe": "Kaffee",
+                "bier": "Bier",
+                "laufen": "Laufen",
+                "fussball": "Fußball",
+                "ringen": "Ringen",
+                "turnen": "Turnen",
+                "rudern": "Rudern"
             }
         },
         "common": {
@@ -255,6 +289,40 @@
                 "title": "Game help",
                 "errorCountLabel": "Errors:",
                 "stop": "Stop help"
+            },
+            "categories": {
+                "country": "Nationality",
+                "color": "Colour",
+                "animal": "Pet",
+                "drink": "Drink",
+                "sport": "Sport"
+            },
+            "items": {
+                "norwegen": "Norway",
+                "daenemark": "Denmark",
+                "england": "England",
+                "deutschland": "Germany",
+                "italien": "Italy",
+                "gelb": "Yellow",
+                "blau": "Blue",
+                "rot": "Red",
+                "gruen": "Green",
+                "weiss": "White",
+                "katze": "Cat",
+                "pferd": "Horse",
+                "vogel": "Bird",
+                "fisch": "Fish",
+                "hund": "Dog",
+                "wasser": "Water",
+                "wein": "Wine",
+                "milch": "Milk",
+                "kaffe": "Coffee",
+                "bier": "Beer",
+                "laufen": "Running",
+                "fussball": "Football",
+                "ringen": "Wrestling",
+                "turnen": "Gymnastics",
+                "rudern": "Rowing"
             }
         },
         "common": {

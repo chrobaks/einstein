@@ -33,16 +33,16 @@ class GameApp
         this.gameInstruction.updateTranslations();
         this.gameButton.updateTranslations();
         this.helpButton.updateTranslations();
+        this.gameInfo.updateTranslations();
     }
 
-    setConfig (VIEW_ID, ITEMS, TEXT_ALIAS, COLOR_FILTER)
+    setConfig (VIEW_ID, ITEMS, COLOR_FILTER)
     {
         try {
             GameUi.setConf({
                 viewId: VIEW_ID,
                 maxHouse: ITEMS[Object.keys(ITEMS)[0]].length,
                 items: ITEMS,
-                textAlias: TEXT_ALIAS,
                 colorFilter: COLOR_FILTER,
             });
         } catch (error) {console.error(error.message)}
@@ -146,7 +146,7 @@ class GameApp
             this.dragItem = new DragItem(this.gameProxy);
             this.gameButton = new GameButton(this.gameProxy, this.translationHandler);
             this.helpButton = new HelpButton(this.gameProxy, this.translationHandler);
-            this.gameInfo = new GameInfo();
+            this.gameInfo = new GameInfo(this.translationHandler);
             this.gameInstruction = new GameInstruction(this.translationHandler);
             this.gameDialog = new GameDialog(this.gameProxy);
         } catch (error) {console.error(error.message)}
@@ -652,9 +652,13 @@ class GameInstruction
 class GameInfo
 {
     container;
+    translationHandler;
+    categoryId = '';
+    itemId = '';
 
-    constructor ()
+    constructor (translationHandler)
     {
+        this.translationHandler = translationHandler;
         this.container = GameUi.getElement("div", 'container-game-drag-info');
 
         this.renderContainer();
@@ -671,15 +675,25 @@ class GameInfo
 
     setContent (infoKey, infoValue)
     {
-        if (infoKey) {
-            const box = this.container.querySelector(`[data-info="${infoKey}"]`);
-            if (box) {
-                infoValue = (GameUi.config.textAlias?.[infoValue]) ? GameUi.config.textAlias[infoValue] : infoValue;
-                box.innerText = GameUi.ucFirst(infoValue);
-            }
+        if (!infoKey) {
+            this.categoryId = '';
+            this.itemId = '';
+        } else if (infoKey === 'category') {
+            this.categoryId = infoValue;
+        } else if (infoKey === 'value') {
+            this.itemId = infoValue;
         } else {
-            [...this.container.querySelectorAll(`[data-info]`)].map(box => { box.innerText = ''; });
+            return;
         }
+        this.updateTranslations();
+    }
+
+    updateTranslations ()
+    {
+        this.container.querySelector('[data-info="category"]').textContent = this.categoryId
+            ? this.translationHandler.getText(`game.categories.${this.categoryId}`) : '';
+        this.container.querySelector('[data-info="value"]').textContent = this.itemId
+            ? this.translationHandler.getText(`game.items.${this.itemId}`) : '';
     }
 }
 
