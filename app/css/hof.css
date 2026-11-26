@@ -31,21 +31,86 @@ body {
 
 /*
 # -----------------------------
+# Shared buttons and utilities
+# -----------------------------
+*/
+
+button.btn,
+a.btn {
+    background-color: var(--color-action);
+    color: var(--color-text-button);
+    text-align: center;
+    padding: 5px 15px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 7px;
+}
+
+a.btn {
+    display: inline-block;
+    padding: 3px 15px !important;
+}
+
+a.btn-green {
+    background-color: var(--color-success);
+    color: var(--color-white) !important;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.clearB {
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+
+.txt-green {
+    color: var(--color-success);
+}
+
+.txt-bold {
+    font-weight: bold;
+}
+
+/*
+# -----------------------------
 # Header and language controls
 # -----------------------------
 */
 
 .header {
-    width: 790px;
+    width: 100%;
     margin: 0 auto;
-    font-size: 24px;
     padding: 20px 0;
     background-color: var(--color-header-background);
     color: var(--color-text-light);
 }
 
-.header div {
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    width: 790px;
+    margin: 0 auto;
+}
+
+.header div.header-title {
     padding-left: 20px;
+    font-size: 24px;
+}
+
+.header div.header-ctrl-trans {
+    padding-right: 20px;
+    font-size: 18px;
+}
+
+.header div.header-ctrl-trans .ctrl-trans {
+    cursor: pointer;
+}
+
+.header div.header-ctrl-trans .ctrl-trans.active-trans {
+    background-color: var(--color-success);
+    color: var(--color-white) !important;
 }
 
 /*
@@ -56,7 +121,7 @@ body {
 
 .container-landingpage {
     position: relative;
-    margin: 0 auto;
+    margin:20px auto 0;
     border: 0;
     width: 790px;
     height: 490px;
@@ -133,7 +198,8 @@ body {
 
 #GameRegistration .table-container {
     width: calc(100% - 150px);
-    height: 380px;
+    /*height: 380px;*/
+    padding: 30px;
     overflow-y: auto;
     margin-left: 30px;
 }
