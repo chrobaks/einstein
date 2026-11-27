@@ -45,7 +45,6 @@ const IMAGES = {
         'icon_rudern.gif',
     ]
 };
-
 const ITEMS = {
     'country' : ['norwegen' , 'daenemark', 'england' ,'deutschland' ,'italien'],
     'color' : [ 'gelb', 'blau' , 'rot' , 'gruen' , 'weiss'],
@@ -79,14 +78,5 @@ const COLOR_FILTER = {
         backgroundColor : "#ffffff",
             color : "#000000"
     }
-}
-
-const TRANSLATION_CONFIG = {
-    langs:['de', 'en'],
-    default: 'de',
-    fallback: 'de',
-    url: 'json/translation.json',
-    storageKey: 'einstein.language'
 };
-
 const GAME_CONF = [VIEW_ID, ITEMS, COLOR_FILTER];

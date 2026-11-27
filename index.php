@@ -1,5 +1,9 @@
+<?php
+$View = require __DIR__ . '/backend/bootstrap.php';
+?>
+
 <!DOCTYPE html>
-<html lang="de">
+<html lang="<?=$View['language'];?>">
 <head>
     <meta charset="UTF-8">
     <title data-trans-key="landing.pageTitle">NetCoDev / Einstein Rätsel</title>
@@ -14,8 +18,11 @@
     <script src="app/js/MainApp.js"></script>
     <script>
         window.onload = () => {
-            const InstMainApp = new MainApp(TRANSLATION_CONFIG, GAME_CONF, IMAGES);
+            const InstMainApp = new MainApp("<?=$View['puzzleJsonId'];?>", <?=$View['translationConfig'];?>, GAME_CONF, IMAGES);
         };
+    </script>
+    <script type="application/json" id="<?=$View['puzzleJsonId'];?>">
+        <?=$View['puzzleData'];?>
     </script>
 </head>
 <body>

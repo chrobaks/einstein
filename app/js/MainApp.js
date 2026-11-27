@@ -7,21 +7,21 @@ class MainApp
     GameTranslation;
     imgList;
 
-    constructor (TRANSLATION_CONFIG, GAME_CONF, IMAGES)
+    constructor (JSON_ID, TRANSLATION_CONFIG, GAME_CONF, IMAGES)
     {
         this.imgList = IMAGES;
         this.startButton = document.getElementById('btnIntroCtrl');
         this.initializationError = document.getElementById('gameInitializationError');
         this.startButton.disabled = true;
-        this.ready = this.initialize(TRANSLATION_CONFIG, GAME_CONF);
+        this.ready = this.initialize(JSON_ID, TRANSLATION_CONFIG, GAME_CONF);
     }
 
-    async initialize (translationConfig, gameConfig)
+    async initialize (jsonId, translationConfig, gameConfig)
     {
         try {
-            this.GameTranslation = new GameTranslation(translationConfig);
-            if (!await this.GameTranslation.ready) {
-                throw new Error('Translation dictionary could not be loaded');
+            this.GameTranslation = new GameTranslation(jsonId, translationConfig);
+            if (!await this.GameTranslation.initialize()) {
+                throw new Error('Translation data could not be initialized');
             }
             this.setPreLoad();
             this.setAppProxy();
