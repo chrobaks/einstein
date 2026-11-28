@@ -7,16 +7,16 @@ class MainApp
     GameTranslation;
     imgList;
 
-    constructor (JSON_ID, TRANSLATION_CONFIG, GAME_CONF, IMAGES)
+    constructor (AppConfig)
     {
-        this.imgList = IMAGES;
+        this.imgList = AppConfig.images;
         this.startButton = document.getElementById('btnIntroCtrl');
         this.initializationError = document.getElementById('gameInitializationError');
         this.startButton.disabled = true;
-        this.ready = this.initialize(JSON_ID, TRANSLATION_CONFIG, GAME_CONF);
+        this.ready = this.initialize(AppConfig.puzzleVariantId, AppConfig.puzzleJsonId, AppConfig.translationConfig,  AppConfig.gameConf);
     }
 
-    async initialize (jsonId, translationConfig, gameConfig)
+    async initialize (puzzleVariantId, jsonId, translationConfig, gameConfig)
     {
         try {
             this.GameTranslation = new GameTranslation(jsonId, translationConfig);
@@ -25,7 +25,7 @@ class MainApp
             }
             this.setPreLoad();
             this.setAppProxy();
-            this.GameApp = new GameApp(this.GameTranslation, gameConfig, this.appProxy);
+            this.GameApp = new GameApp(this.GameTranslation,puzzleVariantId, gameConfig, this.appProxy);
             this.GameRegistration = new GameRegistration(this.appProxy, this.GameTranslation);
             this.GameLandingPage = new GameLandingPage(this.appProxy);
             this.startButton.disabled = false;

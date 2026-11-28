@@ -18,7 +18,14 @@ $View = require __DIR__ . '/backend/bootstrap.php';
     <script src="app/js/MainApp.js"></script>
     <script>
         window.onload = () => {
-            const InstMainApp = new MainApp("<?=$View['puzzleJsonId'];?>", <?=$View['translationConfig'];?>, GAME_CONF, IMAGES);
+            const AppConfig = {
+                'puzzleVariantId'   : '<?=$View['puzzleVariantId'];?>',
+                'puzzleJsonId'      : '<?=$View['puzzleJsonId'];?>',
+                'translationConfig' : <?=$View['translationConfig'];?>,
+                'gameConf'          : GAME_CONF,
+                'images'            : IMAGES,
+            };
+            const InstMainApp = new MainApp(AppConfig);
         };
     </script>
     <script type="application/json" id="<?=$View['puzzleJsonId'];?>">

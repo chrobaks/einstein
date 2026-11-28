@@ -15,13 +15,7 @@ class Game
             "name" => '/^[\w\s\d\.\(\)öüäÖÜÄß,;_-]{1,250}$/i',
             "email" => "email"
         ];
-        $this->solution = [
-            'house1' => ['norwegen' , 'gelb' , 'katze' , 'wasser' , 'laufen'],
-            'house2' => ['daenemark' , 'blau' , 'pferd' , 'wein' , 'fussball'],
-            'house3' => ['england' , 'rot' , 'vogel' , 'milch' , 'ringen' ],
-            'house4' => ['deutschland' , 'gruen' , 'fisch' , 'kaffe' , 'turnen' ],
-            'house5' => ['italien' , 'weiss' , 'hund' , 'bier' , 'rudern' ],
-        ];
+        $this->solution = require __DIR__ . '/data/solution/SolutionData.php';
     }
 
     public function getUserList (): array
@@ -34,20 +28,51 @@ class Game
         $errors = 0;
         $matches = 0;
 
-        if (!empty($_POST)) {
-            foreach ($_POST as $k => $values) {
-                if ($k !== "act") {
-                    $values = trim($values);
-                    if (isset($this->solution[$k]) && $values !== '') {
-                        $value = explode(',', $values);
-                        foreach ($value as $v) {
-                            if (!in_array($v, $this->solution[$k])) {
-                                $errors++;
-                            }
-                            $matches++;
-                        }
-                    }
+        $puzzleVariantId = $_POST['puzzleVariantId'] ?? null;
+        if (!is_string($puzzleVariantId) || trim($puzzleVariantId) === '') {
+            return [
+                'status' => 'error',
+                'code' => 'missingPuzzleVariantId',
+            ];
+        }
+
+        $variantSolution = $this->solution['variants'][$puzzleVariantId] ?? null;
+        if (!is_array($variantSolution)) {
+            return [
+                'status' => 'error',
+                'code' => 'unknownPuzzleVariantId',
+            ];
+        }
+
+        foreach ($_POST as $key => $values) {
+            if ($key === 'act' || $key === 'puzzleVariantId') {
+                continue;
+            }
+
+            if (!isset($variantSolution[$key])) {
+                return [
+                    'status' => 'error',
+                    'code' => 'unknownHouse',
+                ];
+            }
+
+            if (!is_string($values)) {
+                return [
+                    'status' => 'error',
+                    'code' => 'invalidHouseItems',
+                ];
+            }
+
+            $values = trim($values);
+            if ($values === '') {
+                continue;
+            }
+
+            foreach (explode(',', $values) as $value) {
+                if (!in_array($value, $variantSolution[$key], true)) {
+                    $errors++;
                 }
+                $matches++;
             }
         }
 
@@ -102,18 +127,27 @@ class Game
         $postAction = $_POST['act'] ?? '';
 
         if ($getAction === 'userList') {
-            echo json_encode($this->getUserList());
+            $this->sendJson($this->getUserList());
         } else if ($postAction !== '') {
             switch ($postAction) {
                 case 'userForm':
-                    echo json_encode($this->setUser());
+                    $this->sendJson($this->setUser());
                     break;
                 case 'solution':
-                    echo json_encode($this->getSolutionCheck());
+                    $response = $this->getSolutionCheck();
+                    $statusCode = ($response['status'] ?? 'success') === 'error' ? 400 : 200;
+                    $this->sendJson($response, $statusCode);
                     break;
             }
 
         }
+    }
+
+    private function sendJson (array $payload, int $statusCode = 200): void
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($payload, JSON_THROW_ON_ERROR);
     }
 
     private function setValidPost (): void

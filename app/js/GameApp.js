@@ -14,9 +14,10 @@ class GameApp
     container;
     translationHandler;
 
-    constructor (translationHandler, GAME_CONF, AppProxy)
+    constructor (translationHandler,puzzleVariantId, GAME_CONF, AppProxy)
     {
         this.translationHandler = translationHandler;
+        this.puzzleVariantId = puzzleVariantId;
         this.appProxy = AppProxy;
         this.setConfig(...GAME_CONF);
         this.setGameProxy();
@@ -78,6 +79,9 @@ class GameApp
                     case 'eventShowDialog':
                         // obj is number
                         this.gameDialog.showDialog(obj);
+                        break;
+                    case 'eventShowRequestError':
+                        this.gameDialog.showRequestError();
                         break;
                     case 'eventSetErrorCount':
                         // obj is integer
@@ -143,7 +147,7 @@ class GameApp
     {
         try {
             this.itemCategory = new ItemCategory(this.gameProxy);
-            this.itemBoard = new ItemBoard(this.gameProxy);
+            this.itemBoard = new ItemBoard(this.gameProxy, this.puzzleVariantId);
             this.dragItem = new DragItem(this.gameProxy);
             this.gameButton = new GameButton(this.gameProxy, this.translationHandler);
             this.helpButton = new HelpButton(this.gameProxy, this.translationHandler);
@@ -242,9 +246,10 @@ class ItemBoard
     container;
     activeBoard;
 
-    constructor(gameProxy)
+    constructor(gameProxy, puzzleVariantId)
     {
         this.gameProxy = gameProxy;
+        this.puzzleVariantId = puzzleVariantId;
         this.container = GameUi.getElement("div", 'container-game-board');
         this.activeBoard = null;
 
@@ -371,13 +376,20 @@ class ItemBoard
     setSolutionRequest (formData)
     {
         formData["act"] = "solution";
+        formData["puzzleVariantId"] = this.puzzleVariantId;
 
         fetch('backend/game.php', {
             method: 'post',
             body: JSON.stringify(GameUi.formPostData(formData)),
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
         })
-            .then((res) => res.json())
+            .then(async (res) => {
+                const data = await res.json();
+                if (!res.ok || data?.status === 'error') {
+                    throw new Error(data?.code ?? `HTTP ${res.status}`);
+                }
+                return data;
+            })
             .then((data) => {
                 if (data?.matches !== undefined && data.matches*1 === 25) {
                     if (data.errors*1 === 0) {
@@ -387,12 +399,15 @@ class ItemBoard
                     }
                 } else if (data?.errors !== undefined) {
                     this.gameProxy.setEvent('eventSetErrorCount', data.errors*1);
+                } else {
+                    throw new Error('Unexpected solution response');
                 }
             })
             .catch((error) => {
                 if (typeof error !== 'undefined') {
                     console.error("Error GameAppRequest: " + error.message);
                 }
+                this.gameProxy.setEvent('eventShowRequestError', '');
             });
     }
 
@@ -705,6 +720,7 @@ class GameDialog
     gameProxy;
     translationHandler;
     errorCount = null;
+    requestError = false;
     errorHeading;
     reassurance;
     description;
@@ -747,15 +763,28 @@ class GameDialog
 
     showDialog (errors)
     {
+        this.requestError = false;
         this.errorCount = errors;
+        this.updateTranslations();
+        this.container.style.display = 'block';
+    }
+
+    showRequestError ()
+    {
+        this.requestError = true;
+        this.errorCount = null;
         this.updateTranslations();
         this.container.style.display = 'block';
     }
 
     updateTranslations ()
     {
-        this.reassurance.textContent = this.translationHandler.getText('game.dialog.reassurance');
-        this.description.textContent = this.translationHandler.getText('game.dialog.description');
+        this.reassurance.textContent = this.translationHandler.getText(
+            this.requestError ? 'registration.messages.requestFailed' : 'game.dialog.reassurance',
+        );
+        this.description.textContent = this.requestError
+            ? ''
+            : this.translationHandler.getText('game.dialog.description');
         this.retryButton.textContent = this.translationHandler.getText('game.dialog.retry');
         this.errorHeading.textContent = this.errorCount === null ? '' : this.translationHandler.getText(
             `game.dialog.errorCount.${this.errorCount === 1 ? 'one' : 'other'}`,
