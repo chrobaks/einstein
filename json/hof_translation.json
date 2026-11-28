@@ -1,0 +1,54 @@
+{
+  "de": {
+    "hallOfFame": {
+      "pageTitle": "Hall of Fame / Einsteinrätsel",
+      "title": "Einsteinrätsel Hall of Fame",
+      "columns": {
+        "name": "Name",
+        "date": "Datum"
+      }
+    },
+    "common": {
+      "brand": "NetCoDev :: Einsteinrätsel",
+      "languages": {
+        "de": "Deutsch",
+        "en": "English"
+      },
+      "footer": {
+        "shortDescription": "Dieses Spiel ist eine LearningByDoing-Applikation von:",
+        "sourceLabel": "Hier findest du den Quellcode :"
+      }
+    },
+    "registration": {
+      "messages": {
+        "listFailed": "Die Hall of Fame konnte nicht geladen werden. Bitte lade die Seite erneut."
+      }
+    }
+  },
+  "en": {
+    "hallOfFame": {
+      "pageTitle": "Hall of Fame / Einstein Puzzle",
+      "title": "Einstein Puzzle Hall of Fame",
+      "columns": {
+        "name": "Name",
+        "date": "Date"
+      }
+    },
+    "common": {
+      "brand": "NetCoDev :: Einstein Puzzle",
+      "languages": {
+        "de": "Deutsch",
+        "en": "English"
+      },
+      "footer": {
+        "shortDescription": "This game is a learning-by-doing application by:",
+        "sourceLabel": "Find the source code here:"
+      }
+    },
+    "registration": {
+      "messages": {
+        "listFailed": "The Hall of Fame could not be loaded. Please reload the page."
+      }
+    }
+  }
+}
