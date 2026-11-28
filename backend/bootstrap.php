@@ -27,4 +27,5 @@ return [
     'translationConfig' => LanguageProvider::getTranslationConfig($languagesConfig),
     'puzzleData' => $puzzleDataProvider->getPuzzleData(),
     'puzzleJsonId' => $puzzleDataProvider->getPuzzleJsonId(),
+    'puzzleVariantId' => $puzzleDataProvider->getPuzzleVariantId(),
 ];

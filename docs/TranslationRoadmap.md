@@ -1,16 +1,17 @@
 # Translation roadmap
 
-## Objective and current state
+## Historical objective and current architecture
 
-Continue the translation work by migrating dynamic game text to
-`json/translation.json`. This roadmap expands step 5 of
-[translation.md](translation.md) and describes the remaining integration work.
-It is a plan, not an implementation record.
+This roadmap records the original client-side translation refactor. Its initial
+design used `json/translation.json`; that file is no longer loaded at runtime.
+The puzzle page now builds its embedded locale dictionary from the `shared` and
+`variants` sections in `backend/data/puzzle/PuzzleData.php`. The Hall of Fame
+uses `json/hof_translation.json`. The current structure and data flow are
+documented in [translation.md](translation.md).
 
-Static page translation and dictionary loading already exist. The current
-working changes introduce `TRANSLATION_CONFIG` in `GameConfig.js` and pass it
-through `MainApp` and the Hall of Fame entry point. Dynamic game components
-still use hard-coded text, `CONTENT`, and `TEXT_ALIAS`.
+The numbered implementation plan below is historical context. It describes
+the steps used for the earlier translation refactor; it is not a list of
+remaining work.
 
 Each numbered step should form a reviewable change and a separate commit after
 verification. Suggested messages use the `feature/translation:` prefix.

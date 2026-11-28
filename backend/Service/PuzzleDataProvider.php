@@ -11,26 +11,18 @@ class PuzzleDataProvider
 {
     private string $language;
     private array $puzzleData;
-    private string $puzzleVersion;
+    private string $puzzleVariantId;
     
     public function __construct(string $language, array $puzzleData)
     {
         $this->language = $language;
         $this->puzzleData = $puzzleData;
-        $this->puzzleVersion = 'default';
+        $this->puzzleVariantId = $this->selectPuzzleVariantId();
     }
     
-    public function getPuzzleData(): false|string
+    public function getPuzzleData(): string
     {
-        $data = [];
-
-        if (
-            isset($this->puzzleData[$this->puzzleVersion][$this->language])
-        ) {
-            $data = $this->puzzleData[$this->puzzleVersion][$this->language];
-        }
-
-        $payload = $data === [] ? new \stdClass() : $data;
+        $payload = $this->buildTranslationPayload();
 
         try {
             return json_encode(
@@ -53,5 +45,73 @@ class PuzzleDataProvider
     public function getPuzzleJsonId(): string
     {
         return 'puzzleJsonId-' . date('Y-m-d_H:i:s');
+    }
+
+    public function getPuzzleVariantId(): string
+    {
+        return $this->puzzleVariantId;
+    }
+
+    private function selectPuzzleVariantId(): string
+    {
+        $variants = $this->puzzleData['variants'] ?? [];
+        $sharedTranslations = $this->puzzleData['shared'] ?? [];
+        $languages = array_keys($sharedTranslations);
+        $availableVariantIds = [];
+
+        if (!in_array($this->language, $languages, true)) {
+            throw new RuntimeException(
+                sprintf('No shared translations are available for language "%s".', $this->language),
+            );
+        }
+
+        foreach ($variants as $variantId => $translations) {
+            $hasCompleteTranslations = $languages !== [];
+
+            foreach ($languages as $language) {
+                $languageVariant = $translations[$language] ?? null;
+                $clues = is_array($languageVariant)
+                    ? ($languageVariant['game']['clues'] ?? null)
+                    : null;
+
+                if (!is_array($clues)) {
+                    $hasCompleteTranslations = false;
+                    break;
+                }
+            }
+
+            if ($hasCompleteTranslations) {
+                $availableVariantIds[] = (string) $variantId;
+            }
+        }
+
+        if ($availableVariantIds === []) {
+            throw new RuntimeException(
+                sprintf('No puzzle variant is available for language "%s".', $this->language),
+            );
+        }
+
+        $selectedIndex = random_int(0, count($availableVariantIds) - 1);
+
+        return $availableVariantIds[$selectedIndex];
+    }
+
+    private function buildTranslationPayload(): array
+    {
+        $payload = [];
+        $sharedTranslations = $this->puzzleData['shared'] ?? [];
+        $variantTranslations = $this->puzzleData['variants'][$this->puzzleVariantId] ?? [];
+
+        foreach ($sharedTranslations as $language => $sharedData) {
+            $languageData = $sharedData;
+            $languageData['game']['clues'] = $variantTranslations[$language]['game']['clues'];
+            $payload[$language] = $languageData;
+        }
+
+        if ($payload === []) {
+            throw new RuntimeException('No translations are available for the selected puzzle variant.');
+        }
+
+        return $payload;
     }
 }

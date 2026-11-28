@@ -6,7 +6,7 @@ $View = require __DIR__ . '/backend/bootstrap.php';
 <html lang="<?=$View['language'];?>">
 <head>
     <meta charset="UTF-8">
-    <title data-trans-key="landing.pageTitle">NetCoDev / Einstein Rätsel</title>
+    <title data-trans-key="landing.pageTitle"></title>
     <link rel="stylesheet" href="app/css/app.css">
     <script src="app/js/GameConfig.js"></script>
     <script src="app/js/GameUi.js"></script>
@@ -28,133 +28,118 @@ $View = require __DIR__ . '/backend/bootstrap.php';
 <body>
     <div class="header">
         <div class="header-content">
-            <div class="header-title"><span data-trans-key="common.brand">NetCoDev :: Einsteinrätsel</span></div>
-            <div class="header-ctrl-trans"><button data-trans-value="de" class="btn ctrl-trans"><span data-trans-key="common.languages.de">Deutsch</span></button> | <button data-trans-value="en" class="btn ctrl-trans"><span data-trans-key="common.languages.en">English</span></button></div>
+            <div class="header-title"><span data-trans-key="common.brand"></span></div>
+            <div class="header-ctrl-trans"><button data-trans-value="de" class="btn ctrl-trans"><span data-trans-key="common.languages.de"></span></button> | <button data-trans-value="en" class="btn ctrl-trans"><span data-trans-key="common.languages.en"></span></button></div>
         </div>
     </div>
     <div id="GameLandingPage" class="container-landingpage">
         <div class="landingpage-content">
-            <h2><span data-trans-key="landing.title">Das Einsteinrätsel</span></h2>
+            <h2><span data-trans-key="landing.title"></span></h2>
             <p>
-                <span data-trans-key="landing.legend">Die Legende erzählt, daß angeblich Albert Einstein dieses Rätsel im letzten Jahrhundert verfasste. Gerüchten zur Folge soll er behauptet haben, dass 98% der Weltbevölkerung nicht in der Lage seien, es zu lösen.</span><br>&nbsp;<br>
-                <strong><span data-trans-key="landing.challenge">Gehörst du zu den zwei Prozent?</span></strong>
+                <span data-trans-key="landing.legend"></span><br>&nbsp;<br>
+                <strong><span data-trans-key="landing.challenge"></span></strong>
             </p>
-            <h3><span data-trans-key="landing.motivation.title">Du willst das Rätsel lösen?</span></h3>
+            <h3><span data-trans-key="landing.motivation.title"></span></h3>
             <p>
-                <strong><span data-trans-key="landing.motivation.lead">Du bist vollkommen entspannt? Dann wage den nächsten Schritt!</span></strong><br>
-                <span data-trans-key="landing.motivation.description">Mit Gelassenheit kommst du zum Ziel, lerne deine Enttäuschung und deinen Selbstzweifel zu beherrschen. Halte ein Handtuch* bereit und in Reichweite.</span>
+                <strong><span data-trans-key="landing.motivation.lead"></span></strong><br>
+                <span data-trans-key="landing.motivation.description"></span>
                 <br>&nbsp;<br>
-                <small><span data-trans-key="landing.motivation.towelNote">*Nein, du must nicht per Anhalter in irgendein Universum, das Handtuch ist für deine Tränen.</span></small>
+                <small><span data-trans-key="landing.motivation.towelNote"></span></small>
                 <br>&nbsp;<br>
-                <strong><span data-trans-key="landing.motivation.tipsLead">Lies die Spieletipps!</span></strong><br>
-                <span data-trans-key="landing.motivation.tipsDescription">Die Spieltipps helfen dir die gute Laune zu behalten, sie sind deine logischen Bausteine zum Erfolg!</span>
+                <strong><span data-trans-key="landing.motivation.tipsLead"></span></strong><br>
+                <span data-trans-key="landing.motivation.tipsDescription"></span>
             </p>
-            <h3><span data-trans-key="landing.rules.title">So funktioniert das Spiel</span></h3>
+            <h3><span data-trans-key="landing.rules.title"></span></h3>
             <p>
-                <strong><span data-trans-key="landing.rules.goalTitle">Des Rätsels Lösung!</span></strong><br>
-                <span data-trans-html="landing.rules.goal">Finde heraus, welches Haus den <strong>Fisch</strong> als Haustier hat.</span>
+                <strong><span data-trans-key="landing.rules.goalTitle"></span></strong><br>
+                <span data-trans-html="landing.rules.goal"></span>
             </p>
             <p>
-                <strong><span data-trans-key="landing.rules.iconsTitle">Die Spieleicons</span></strong><br>
-                <span data-trans-key="landing.rules.categoriesIntro">Es gibt fünf Kategorien mit jeweils fünf Eigenschaften:</span><br>&nbsp;<br>
-                <span data-trans-key="landing.rules.categories.color">- Farbe (color)</span><br>
-                <span data-trans-key="landing.rules.categories.animal">- Haustier (animal)</span><br>
-                <span data-trans-key="landing.rules.categories.sport">- Sport (sport)</span><br>
-                <span data-trans-key="landing.rules.categories.country">- Nationalität (flag)</span><br>
-                <span data-trans-key="landing.rules.categories.drink">- Getränk (drink)</span><br>
+                <strong><span data-trans-key="landing.rules.iconsTitle"></span></strong><br>
+                <span data-trans-key="landing.rules.categoriesIntro"></span><br>&nbsp;<br>
+                <span data-trans-key="landing.rules.categories.color"></span><br>
+                <span data-trans-key="landing.rules.categories.animal"></span><br>
+                <span data-trans-key="landing.rules.categories.sport"></span><br>
+                <span data-trans-key="landing.rules.categories.country"></span><br>
+                <span data-trans-key="landing.rules.categories.drink"></span><br>
                 <br>&nbsp;<br>
-                <span data-trans-key="landing.rules.assign">Wenn du ein Icon in ein Haus setzen möchtest, dann fahre mit deiner Mouse über das Icon und halte die
-                linke Mousetaste gedrückt, ziehe das Icon in den Bereich des von dir gewählten Haus und lass die linke
-                Mousetaste los. Das Icon springt dann automatisch an die richtige Stelle im Haus.</span>
+                <span data-trans-key="landing.rules.assign"></span>
                 <br>&nbsp;<br>
-                <span data-trans-key="landing.rules.replace">Wenn du das Icon in einem Haus ändern möchtest, dann ziehe das neue Icon einfach über das Haus und lass das Icon los.
-                Wenn sich schon ein anderes Icon derselben Kategorie in diesem Haus befindet, dann springt dieses Icon wieder zurück
-                in seine Startposition.</span>
+                <span data-trans-key="landing.rules.replace"></span>
                 <br>&nbsp;<br>
-                <span data-trans-key="landing.rules.remove">Entferne ein Icon in einem Haus, indem du es einfach außerhalb des Bereichs der Häuser ziehst und es dann losläßt. Das
-                Icon spring automatisch zu seiner Startpostion im Auswahlfeld.</span>
+                <span data-trans-key="landing.rules.remove"></span>
             </p>
-            <h3><span data-trans-key="landing.tips.title">Die Spiel-Tipps</span></h3>
+            <h3><span data-trans-key="landing.tips.title"></span></h3>
             <ul>
-                <li><strong><span data-trans-key="game.clues.group1.title">Tipp 1</span></strong></li>
-                <li><span data-trans-key="game.clues.group1.items.0">Der Engländer lebt im roten Haus.</span></li>
-                <li><span data-trans-key="game.clues.group1.items.1">Der Italiener hält einen Hund.</span></li>
-                <li><span data-trans-key="game.clues.group1.items.2">Der Däne trinkt gerne Wein.</span></li>
-                <li><span data-trans-key="game.clues.group1.items.3">Das grüne Haus steht links vom weissen Haus.</span></li>
-                <li><span data-trans-key="game.clues.group1.items.4">Der Besitzer des grünen Hauses trinkt Kaffee.</span></li>
+                <li><strong><span data-trans-key="game.clues.group1.title"></span></strong></li>
+                <li><span data-trans-key="game.clues.group1.items.0"></span></li>
+                <li><span data-trans-key="game.clues.group1.items.1"></span></li>
+                <li><span data-trans-key="game.clues.group1.items.2"></span></li>
+                <li><span data-trans-key="game.clues.group1.items.3"></span></li>
+                <li><span data-trans-key="game.clues.group1.items.4"></span></li>
             </ul>
             <ul>
-                <li><strong><span data-trans-key="game.clues.group2.title">Tipp 2</span></strong></li>
-                <li><span data-trans-key="game.clues.group2.items.0">Die Person, die gerne ringt, hält einen Vogel.</span></li>
-                <li><span data-trans-key="game.clues.group2.items.1">Der Mann, der im mittleren Haus wohnt, trinkt Milch.</span></li>
-                <li><span data-trans-key="game.clues.group2.items.2">Der Besitzer des gelben Hauses ist ein Fan des Laufsports.</span></li>
-                <li><span data-trans-key="game.clues.group2.items.3">Der Norweger wohnt im ersten Haus.</span></li>
-                <li><span data-trans-key="game.clues.group2.items.4">Der Fussball-Spieler wohnt neben dem, der eine Katze hält.</span></li>
+                <li><strong><span data-trans-key="game.clues.group2.title"></span></strong></li>
+                <li><span data-trans-key="game.clues.group2.items.0"></span></li>
+                <li><span data-trans-key="game.clues.group2.items.1"></span></li>
+                <li><span data-trans-key="game.clues.group2.items.2"></span></li>
+                <li><span data-trans-key="game.clues.group2.items.3"></span></li>
+                <li><span data-trans-key="game.clues.group2.items.4"></span></li>
             </ul>
             <ul>
-                <li><strong><span data-trans-key="game.clues.group3.title">Tipp 3</span></strong></li>
-                <li><span data-trans-key="game.clues.group3.items.0">Der Mann, der ein Pferd hält, wohnt neben dem, der Laufen geht.</span></li>
-                <li><span data-trans-key="game.clues.group3.items.1">Der Ruder-Fan trinkt gerne Bier.</span></li>
-                <li><span data-trans-key="game.clues.group3.items.2">Der Norweger wohnt neben dem blauen Haus.</span></li>
-                <li><span data-trans-key="game.clues.group3.items.3">Der Deutsche liebt das Turnen.</span></li>
-                <li><span data-trans-key="game.clues.group3.items.4">Der Fussball-Spieler hat einen Nachbarn, der Wasser trinkt.</span></li>
+                <li><strong><span data-trans-key="game.clues.group3.title"></span></strong></li>
+                <li><span data-trans-key="game.clues.group3.items.0"></span></li>
+                <li><span data-trans-key="game.clues.group3.items.1"></span></li>
+                <li><span data-trans-key="game.clues.group3.items.2"></span></li>
+                <li><span data-trans-key="game.clues.group3.items.3"></span></li>
+                <li><span data-trans-key="game.clues.group3.items.4"></span></li>
             </ul>
-            <p><span data-trans-key="landing.tips.reminder">Du findest diese Tipps auch im Spielbereich, du musst sie dir jetzt nicht merken!</span></p>
-            <h3><span data-trans-key="landing.ready.title">Und jetzt viel Spaß!</span></h3>
+            <p><span data-trans-key="landing.tips.reminder"></span></p>
+            <h3><span data-trans-key="landing.ready.title"></span></h3>
             <p>
-                <strong><span data-trans-key="landing.ready.description">Wenn du bereit bist dann klicke unten auf "Spiel starten"!</span></strong><br>
+                <strong><span data-trans-key="landing.ready.description"></span></strong><br>
             </p>
             <p class="footer">
-                <span data-trans-key="common.footer.projectDescription">Dieses Spiel ist eine LearningByDoing-Applikation von</span> <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a><span data-trans-key="common.footer.idea">, die Idee dazu basiert auf
-                einem Wochenende ohne Schlaf, dem Hang die Javascriptwelt zu erforschen und dem gnadenlosen
-                Willen, bei der Umsetzung alle erdenklichen Fehler zu machen und daraus zu lernen.</span>
+                <span data-trans-key="common.footer.projectDescription"></span> <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a><span data-trans-key="common.footer.idea"></span>
                 <br>&nbsp;<br>
-                <span data-trans-key="common.footer.history">Die erste Version wurde 2002 ohne OOP oder die heute beliebten Javascriptlibarys geschrieben, also kein JQuery oder Prototype als Hilfsmittel
-                für die Umsetzung des Javascriptcodes. Danach verstaubte das Spiel und 2021 erwachte der
-                Gedanke, den Code mit OOP umzusetzen, dabei mit dem aktuellen Javascriptstandard zu arbeiten und nach wie vor auf neue
-                bekannten Errungenschaften wie Bootstrap, Vue, React oder Angular zu verzichten.</span>
+                <span data-trans-key="common.footer.history"></span>
                 <br>&nbsp;<br>
-                <span data-trans-key="common.footer.sourceLabel">Hier findest du den Quellcode :</span><br>
+                <span data-trans-key="common.footer.sourceLabel"></span><br>
                 <a href="https://github.com/chrobaks/einstein" title="https://github.com/chrobaks/einstein" target="_blank">github.com/chrobaks/einstein</a>
 
             </p>
         </div>
         <div class="landingpage-btn">
-            <button id="btnIntroCtrl" class="btn" disabled><span data-trans-key="landing.buttons.start">Spiel starten</span></button>
+            <button id="btnIntroCtrl" class="btn" disabled><span data-trans-key="landing.buttons.start"></span></button>
             <p id="gameInitializationError" role="alert" hidden>Das Spiel konnte nicht geladen werden. Bitte lade die Seite erneut. / The game could not be loaded. Please reload the page.</p>
         </div>
     </div>
     <div id="GameApp" class="container-game"></div>
     <div id="GameRegistration" class="container-landingpage">
         <div class="landingpage-content">
-            <h2><span data-trans-key="registration.title">Gratulation</span></h2>
+            <h2><span data-trans-key="registration.title"></span></h2>
             <p>
-                <strong><span data-trans-key="registration.congratulations">Du darfst ab jetzt offiziell den Titel "Einsteinrätsellöser" tragen.</span></strong>
+                <strong><span data-trans-key="registration.congratulations"></span></strong>
             </p>
-            <h3><span data-trans-key="registration.invitation">Verewige dich in der Einsteinrätsel-Hall-of-Fame</span></h3>
+            <h3><span data-trans-key="registration.invitation"></span></h3>
                 <form name="formUser" method="post">
-                        <strong><span data-trans-key="registration.fields.email.label">Deine Emailadresse</span></strong><small> <span data-trans-key="registration.fields.email.hint">(nicht öffentlich sichtbar)</span></small><br>
+                        <strong><span data-trans-key="registration.fields.email.label"></span></strong><small> <span data-trans-key="registration.fields.email.hint"></span></small><br>
                         <input name="email">
                         <br>&nbsp;<br>
-                        <strong><span data-trans-key="registration.fields.name.label">Dein Spielername</span></strong><small> <span data-trans-key="registration.fields.name.hint">(muss nicht dein echter Name sein)</span></small><br>
+                        <strong><span data-trans-key="registration.fields.name.label"></span></strong><small> <span data-trans-key="registration.fields.name.hint"></span></small><br>
                         <input name="name">
 
                 </form>
                 <div class="form-msg"></div>
             <p>
-                <button class="btn btn-submit"><span data-trans-key="registration.buttons.save">Speichern</span></button> <a href="hof.html" target="_blank" class="btn btn-hof btn-green"><span data-trans-key="registration.buttons.hallOfFame">zur Hall of Fame</span></a>
+                <button class="btn btn-submit"><span data-trans-key="registration.buttons.save"></span></button> <a href="hof.html" target="_blank" class="btn btn-hof btn-green"><span data-trans-key="registration.buttons.hallOfFame"></span></a>
             </p>
             <p class="footer">
-                <span data-trans-key="common.footer.projectDescription">Dieses Spiel ist eine LearningByDoing-Applikation von</span> <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a><span data-trans-key="common.footer.idea">, die Idee dazu basiert auf
-                einem Wochenende ohne Schlaf, dem Hang die Javascriptwelt zu erforschen und dem gnadenlosen
-                Willen, bei der Umsetzung alle erdenklichen Fehler zu machen und daraus zu lernen.</span>
+                <span data-trans-key="common.footer.projectDescription"></span> <a href="http://www.netcodev.de" title="http://www.netcodev.de" target="_blank">NetCoDev</a><span data-trans-key="common.footer.idea"></span>
                 <br>&nbsp;<br>
-                <span data-trans-key="common.footer.history">Die erste Version wurde 2002 ohne OOP oder die heute beliebten Javascriptlibarys geschrieben, also kein JQuery oder Prototype als Hilfsmittel
-                für die Umsetzung des Javascriptcodes. Danach verstaubte das Spiel und 2021 erwachte der
-                Gedanke, den Code mit OOP umzusetzen, dabei mit dem aktuellen Javascriptstandard zu arbeiten und nach wie vor auf neue
-                bekannten Errungenschaften wie Bootstrap, Vue, React oder Angular zu verzichten.</span>
+                <span data-trans-key="common.footer.history"></span>
                 <br>&nbsp;<br>
-                <span data-trans-key="common.footer.sourceLabel">Hier findest du den Quellcode :</span><br>
+                <span data-trans-key="common.footer.sourceLabel"></span><br>
                 <a href="https://github.com/chrobaks/einstein" title="https://github.com/chrobaks/einstein" target="_blank">github.com/chrobaks/einstein</a>
             </p>
         </div>
